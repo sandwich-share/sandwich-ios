@@ -49,43 +49,71 @@
 		NSLog(@"Fetched index for peer %@", self.peer.ip);
 	}
 	NSDictionary* json = [NSJSONSerialization JSONObjectWithData:index options:kNilOptions error:nil];
-	char* errorMsg = "";
-	NSMutableString* sqlStmnt = [[NSMutableString alloc] init];
-	[sqlStmnt appendFormat:@"CREATE TABLE IF NOT EXISTS [%@] (filepath TEXT PRIMARY KEY NOT NULL)", self.peer.ip];
-	const char* sqlStatement = [sqlStmnt UTF8String];
-	//NSLog(@"%s", sqlStatement);
-	int errorCode;
-	if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
-		NSLog(@"Failed to create table: %d %@", errorCode, self.peer.ip);
-		NSLog(@"ERROR MESSAGE: %s", sqlite3_errmsg(self.indexDB));
-	}
-	else {
-		NSArray* list = [json objectForKey:@"List"];
-		NSMutableString* stmnt = [[NSMutableString alloc]init];
-		[stmnt appendFormat:@"INSERT OR REPLACE INTO [%@] (filepath) VALUES (?1)", self.peer.ip];
-		const char* sql = [stmnt UTF8String];
-		sqlite3_stmt* insertStatment;
-		sqlite3_prepare_v2(self.indexDB, sql, -1, &insertStatment, NULL);
+	
+   	int errorCode;
+	
+    sqlite3_stmt* statement;
+    NSString *sqlStmt = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@] (filepath TEXT PRIMARY KEY NOT NULL)", self.peer.ip];
+	const char* sqlStatement = [sqlStmt UTF8String];
+	
+	sqlite3_prepare_v2(self.indexDB, sqlStatement, -1, &statement, NULL);
+	if ((errorCode = sqlite3_step(statement)) == SQLITE_DONE) {
+        NSLog(@"Successfully created table: %@", self.peer.ip);
+        sqlite3_reset(statement);
+        
+        
+        NSString* insertStmt = [NSString stringWithFormat:@"INSERT OR REPLACE INTO [%@] (filepath) VALUES (?1)", self.peer.ip];
+		const char* insertStatement = [insertStmt UTF8String];
+        
+		sqlite3_prepare_v2(self.indexDB, insertStatement, -1, &statement, NULL);
+        
+        
+        NSArray* list = [json objectForKey:@"List"];
 		for (int i = 0; i < list.count; i++) {
 			NSDictionary* files = list[i];
 			for (int i = 0; i < files.count; i++) {
 				NSString* filename = [files objectForKey:@"FileName"];
 				const char* fileName = [filename UTF8String];
 				int errorCode;
-				if ((errorCode = sqlite3_bind_text(insertStatment, 0, fileName, -1, SQLITE_STATIC)) != SQLITE_OK) {
+				if ((errorCode = sqlite3_bind_text(statement, 1, fileName, -1, SQLITE_STATIC)) != SQLITE_OK) {
 					NSLog(@"Bind Error: %d", errorCode);
 				}
-				if (sqlite3_step(insertStatment) != SQLITE_OK) {
-					NSLog(@"Inserting error: %s", errorMsg);
+				if ((errorCode = sqlite3_step(statement)) != SQLITE_DONE) {
+					NSLog(@"Inserting error: %d", errorCode);
 				}
+                sqlite3_reset(statement);
 			}
 		}
-	}
+
+    }
+    else {
+        NSLog(@"Failed to create table: %@", self.peer.ip);
+    }
 }
 
-- (IndexDownloadThread *)initWithPeer:(Peer *)peer indexDB:(sqlite3*)indexDB {
+-(void) initializeDatabase {
+    ///// Create path to the database file /////
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+	NSString *libraryDirectory = [paths objectAtIndex:0];
+    NSString* dbFileName = [NSString stringWithFormat:@"%@.db", self.peer.ip];
+    
+	NSString *dataPath = [libraryDirectory stringByAppendingPathComponent:dbFileName];
+    const char * dbPath = [dataPath UTF8String];
+    ////////////////////////////////////////////
+    
+    //// Create the database /////
+    sqlite3* indexDB;
+    if (sqlite3_open(dbPath, &indexDB) == SQLITE_OK) {
+        self.indexDB = indexDB;
+    }
+    else {
+        NSLog(@"Unable to create database");
+    }
+}
+
+- (IndexDownloadThread *)initWithPeer:(Peer *)peer {
 	self.peer = peer;
-	self.indexDB = indexDB;
+    [self initializeDatabase];
 	return [super init];
 }
 @end

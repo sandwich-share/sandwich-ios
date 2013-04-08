@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <sqlite3.h>
+#import "Peer.h"
 
-@interface Bootstrapper : NSThread
-- (void) downloadIndexes: (NSMutableSet*) peerlist;
+@interface Bootstrapper : NSOperation
+- (void) downloadIndexes: (Peer*) peer;
+
+
 @end

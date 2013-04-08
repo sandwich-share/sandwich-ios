@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Bootstrapper.h"
 
 @implementation AppDelegate
 
@@ -18,6 +19,12 @@
         UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
         splitViewController.delegate = (id)navigationController.topViewController;
     }
+    /*Bootstrapper* bootstrapThread = [[Bootstrapper alloc] init];
+    [bootstrapThread start];*/
+    NSOperationQueue* opQueue = [[NSOperationQueue alloc]init];
+    Bootstrapper* bootstrapOp = [[Bootstrapper alloc] init];
+    [opQueue addOperation:bootstrapOp];
+    
     return YES;
 }
 							

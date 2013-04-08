@@ -15,5 +15,5 @@
 @property struct sqlite3* indexDB;
 
 - (unsigned short) portForIP: (NSString*) ip;
-- (IndexDownloadThread*) initWithPeer: (Peer*)peer indexDB:(sqlite3*)indexDB;
+- (IndexDownloadThread*) initWithPeer: (Peer*)peer;
 @end
