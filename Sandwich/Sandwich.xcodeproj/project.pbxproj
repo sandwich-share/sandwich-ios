@@ -30,6 +30,8 @@
 		FB10B61D17133B3A00C3707E /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B61A17133B3A00C3707E /* Peer.m */; };
 		FB10B61F17133EEC00C3707E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B61E17133EEC00C3707E /* libsqlite3.dylib */; };
 		FB10B64917135E9A00C3707E /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B64817135E9A00C3707E /* Search.m */; };
+		FB10B64C17148F7D00C3707E /* IndexViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B64B17148F7D00C3707E /* IndexViewCell.m */; };
+		FB10B64F1716231C00C3707E /* SandwichMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B64E1716231C00C3707E /* SandwichMainView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +79,10 @@
 		FB10B61E17133EEC00C3707E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		FB10B64717135E9A00C3707E /* Search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Search.h; sourceTree = "<group>"; };
 		FB10B64817135E9A00C3707E /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
+		FB10B64A17148F7D00C3707E /* IndexViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewCell.h; sourceTree = "<group>"; };
+		FB10B64B17148F7D00C3707E /* IndexViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexViewCell.m; sourceTree = "<group>"; };
+		FB10B64D1716231C00C3707E /* SandwichMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SandwichMainView.h; sourceTree = "<group>"; };
+		FB10B64E1716231C00C3707E /* SandwichMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SandwichMainView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,7 +160,11 @@
 				FB10B5F317133AAB00C3707E /* MasterViewController.m */,
 				FB10B5F517133AAB00C3707E /* DetailViewController.h */,
 				FB10B5F617133AAB00C3707E /* DetailViewController.m */,
+				FB10B64A17148F7D00C3707E /* IndexViewCell.h */,
+				FB10B64B17148F7D00C3707E /* IndexViewCell.m */,
 				FB10B5DB17133AAB00C3707E /* Supporting Files */,
+				FB10B64D1716231C00C3707E /* SandwichMainView.h */,
+				FB10B64E1716231C00C3707E /* SandwichMainView.m */,
 			);
 			path = Sandwich;
 			sourceTree = "<group>";
@@ -311,6 +321,8 @@
 				FB10B61C17133B3A00C3707E /* IndexDownloadThread.m in Sources */,
 				FB10B61D17133B3A00C3707E /* Peer.m in Sources */,
 				FB10B64917135E9A00C3707E /* Search.m in Sources */,
+				FB10B64C17148F7D00C3707E /* IndexViewCell.m in Sources */,
+				FB10B64F1716231C00C3707E /* SandwichMainView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

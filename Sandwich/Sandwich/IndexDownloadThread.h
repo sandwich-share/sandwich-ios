@@ -10,10 +10,11 @@
 #import "Peer.h"
 #import <sqlite3.h>
 
-@interface IndexDownloadThread : NSThread
+@interface IndexDownloadThread : NSOperation
 @property Peer* peer;
 @property struct sqlite3* indexDB;
 
 - (unsigned short) portForIP: (NSString*) ip;
 - (IndexDownloadThread*) initWithPeer: (Peer*)peer;
+- (void) setFinished;
 @end

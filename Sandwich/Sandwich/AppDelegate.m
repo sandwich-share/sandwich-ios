@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "Bootstrapper.h"
+#import "Search.h"
 
 @implementation AppDelegate
 
@@ -19,12 +20,16 @@
         UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
         splitViewController.delegate = (id)navigationController.topViewController;
     }
-    /*Bootstrapper* bootstrapThread = [[Bootstrapper alloc] init];
-    [bootstrapThread start];*/
+    self.peerlist = [[NSMutableSet alloc]init];
     NSOperationQueue* opQueue = [[NSOperationQueue alloc]init];
-    Bootstrapper* bootstrapOp = [[Bootstrapper alloc] init];
-    [opQueue addOperation:bootstrapOp];
+    Bootstrapper* bootstrapOp = [[Bootstrapper alloc] initWithPeerlist:self.peerlist];
     
+    Search* searchOp = [[Search alloc] initWithSearchParam:@"%"peerlist:self.peerlist];
+    [searchOp addDependency:bootstrapOp];
+    [opQueue addOperation:bootstrapOp];
+    [opQueue addOperation:searchOp];
+    //[opQueue waitUntilAllOperationsAreFinished];
+    //NSLog(@"All operations finished");
     return YES;
 }
 							

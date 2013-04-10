@@ -13,7 +13,9 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-@implementation IndexDownloadThread
+@implementation IndexDownloadThread {
+    BOOL finished;
+}
 
 - (unsigned short) portForIP: (NSString*)ip {
 	in_addr_t address = inet_addr([ip UTF8String]);
@@ -38,8 +40,18 @@
 	NSMutableString* url = [[NSMutableString alloc] init];
 	[url appendFormat:@"http://%@:%d/indexfor", self.peer.ip, [self portForIP:self.peer.ip]];
 	NSURL* peerURL = [NSURL URLWithString:url];
-	NSData* index = [NSData dataWithContentsOfURL:peerURL];
-	if (index == NULL)
+	//NSData* index = [NSData dataWithContentsOfURL:peerURL];*/
+	
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:peerURL
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                       timeoutInterval:1];
+    [request setHTTPMethod: @"GET"];
+    NSError *requestError;
+    NSURLResponse *urlResponse = nil;
+    
+    NSData *index = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+    
+    if (index == NULL)
 	{
 		NSLog(@"Failed to get index for peer %@", self.peer.ip);
 		return;
@@ -51,15 +63,21 @@
 	NSDictionary* json = [NSJSONSerialization JSONObjectWithData:index options:kNilOptions error:nil];
 	
    	int errorCode;
-	
+	char* errorMsg;
+    
     sqlite3_stmt* statement;
-    NSString *sqlStmt = [NSString stringWithFormat:@"CREATE TABLE IF NOT EXISTS [%@] (filepath TEXT PRIMARY KEY NOT NULL)", self.peer.ip];
+    NSString *sqlStmt = [NSString stringWithFormat:@"DROP TABLE IF EXISTS [%@]", self.peer.ip];
 	const char* sqlStatement = [sqlStmt UTF8String];
-	
-	sqlite3_prepare_v2(self.indexDB, sqlStatement, -1, &statement, NULL);
-	if ((errorCode = sqlite3_step(statement)) == SQLITE_DONE) {
+
+    if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+        NSLog(@"Cannot drop table: %@", self.peer.ip);
+    }
+    sqlStatement = [[NSString stringWithFormat:@"CREATE TABLE [%@] (filepath TEXT PRIMARY KEY NOT NULL)",self.peer.ip] UTF8String];
+    if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+        NSLog(@"Cannot create table: %@ Error Code: %d Error Message: %s", self.peer.ip, errorCode, errorMsg);
+    }
+    else {
         NSLog(@"Successfully created table: %@", self.peer.ip);
-        sqlite3_reset(statement);
         
         
         NSString* insertStmt = [NSString stringWithFormat:@"INSERT OR REPLACE INTO [%@] (filepath) VALUES (?1)", self.peer.ip];
@@ -71,24 +89,30 @@
         NSArray* list = [json objectForKey:@"List"];
 		for (int i = 0; i < list.count; i++) {
 			NSDictionary* files = list[i];
-			for (int i = 0; i < files.count; i++) {
-				NSString* filename = [files objectForKey:@"FileName"];
-				const char* fileName = [filename UTF8String];
-				int errorCode;
-				if ((errorCode = sqlite3_bind_text(statement, 1, fileName, -1, SQLITE_STATIC)) != SQLITE_OK) {
-					NSLog(@"Bind Error: %d", errorCode);
-				}
-				if ((errorCode = sqlite3_step(statement)) != SQLITE_DONE) {
-					NSLog(@"Inserting error: %d", errorCode);
-				}
-                sqlite3_reset(statement);
+            NSString* filename = [files objectForKey:@"FileName"];
+			const char* fileName = [filename UTF8String];
+			int errorCode;
+			if ((errorCode = sqlite3_bind_text(statement, 1, fileName, -1, SQLITE_STATIC)) != SQLITE_OK) {
+				NSLog(@"Bind Error: %d", errorCode);
 			}
-		}
+			if ((errorCode = sqlite3_step(statement)) != SQLITE_DONE) {
+				NSLog(@"Inserting error: %d", errorCode);
+			}
+            //NSLog(@"Inserting: %@: %s", self.peer.ip, fileName);
+            sqlite3_reset(statement);
+        }
+        NSLog(@"Finished adding index: %@", self.peer.ip);
 
     }
-    else {
-        NSLog(@"Failed to create table: %@", self.peer.ip);
-    }
+    [self setFinished];
+}
+
+- (void) setFinished {
+    finished = true;
+}
+
+- (BOOL) isFinished {
+    return finished;
 }
 
 -(void) initializeDatabase {

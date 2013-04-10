@@ -11,7 +11,10 @@
 #import "Peer.h"
 
 @interface Bootstrapper : NSOperation
-- (void) downloadIndexes: (Peer*) peer;
+@property NSMutableSet* peerList;
 
+- (void) downloadIndexes: (Peer*) peer;
+- (Bootstrapper*) initWithPeerlist: (NSMutableSet*)peerList;
+- (void) setFinished;
 
 @end

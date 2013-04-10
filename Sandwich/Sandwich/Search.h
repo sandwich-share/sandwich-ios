@@ -7,10 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <sqlite3.h>
+#import "Peer.h"
 
 @interface Search : NSOperation
 @property NSString* searchParam;
+@property NSMutableSet* peerlist;
 
--(Search*)initWithSearchParam: (NSString*)searchParam;
+- (Search*)initWithSearchParam: (NSString*)searchParam peerlist:(NSMutableSet*)peerlist;
+- (void) performSearch: (sqlite3*)indexDB peer:(Peer*)peer;
+- (void) setFinished;
 
 @end
