@@ -2,14 +2,18 @@
 //  AppDelegate.h
 //  Sandwich
 //
-//  Created by Diego Waxemberg on 4/8/13.
+//  Created by Diego Waxemberg on 4/10/13.
 //  Copyright (c) 2013 Diego Waxemberg. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
+@class ViewController;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (atomic) NSMutableSet* peerlist;
+
+@property (strong, nonatomic) ViewController *viewController;
+
 @end

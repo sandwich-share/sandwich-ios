@@ -1,5 +1,5 @@
 //
-//  SandwichMainView.h
+//  ViewController.h
 //  Sandwich
 //
 //  Created by Diego Waxemberg on 4/10/13.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SandwichMainView : UIView
+@interface ViewController : UIViewController
 
 @end
