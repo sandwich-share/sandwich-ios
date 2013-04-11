@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 #import "AppDelegate.h"
+#import "Peerlist.h"
+
+NSMutableSet* peerlist;
 
 int main(int argc, char *argv[])
 {

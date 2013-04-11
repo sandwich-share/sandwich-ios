@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 
 #import "ViewController.h"
+#import "Bootstrapper.h"
+#import "Peerlist.h"
 
 @implementation AppDelegate
 
@@ -23,6 +25,10 @@
     }
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    peerlist = [[NSMutableSet alloc]init];
+    NSOperationQueue* opQueue = [[NSOperationQueue alloc]init];
+    Bootstrapper* bootstrapOp = [[Bootstrapper alloc]init];
+    [opQueue addOperation:bootstrapOp];
     return YES;
 }
 
