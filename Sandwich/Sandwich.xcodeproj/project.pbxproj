@@ -42,6 +42,20 @@
 			remoteGlobalIDString = FB10B5D017133AAB00C3707E;
 			remoteInfo = Sandwich;
 		};
+		FB10B69F17162AF100C3707E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB10B69A17162AF000C3707E /* Sandwich_iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FB10B65917162AF000C3707E;
+			remoteInfo = Sandwich_iOS;
+		};
+		FB10B6A117162AF100C3707E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FB10B69A17162AF000C3707E /* Sandwich_iOS.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = FB10B68217162AF000C3707E;
+			remoteInfo = Sandwich_iOSTests;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +97,7 @@
 		FB10B64B17148F7D00C3707E /* IndexViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexViewCell.m; sourceTree = "<group>"; };
 		FB10B64D1716231C00C3707E /* SandwichMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SandwichMainView.h; sourceTree = "<group>"; };
 		FB10B64E1716231C00C3707E /* SandwichMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SandwichMainView.m; sourceTree = "<group>"; };
+		FB10B69A17162AF000C3707E /* Sandwich_iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sandwich_iOS.xcodeproj; path = Sandwich_iOS/Sandwich_iOS.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +128,7 @@
 		FB10B5C817133AAB00C3707E = {
 			isa = PBXGroup;
 			children = (
+				FB10B69A17162AF000C3707E /* Sandwich_iOS.xcodeproj */,
 				FB10B61E17133EEC00C3707E /* libsqlite3.dylib */,
 				FB10B5DA17133AAB00C3707E /* Sandwich */,
 				FB10B60417133AAB00C3707E /* SandwichTests */,
@@ -202,6 +218,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		FB10B69B17162AF000C3707E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FB10B6A017162AF100C3707E /* Sandwich_iOS.app */,
+				FB10B6A217162AF100C3707E /* Sandwich_iOSTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -260,6 +285,12 @@
 			mainGroup = FB10B5C817133AAB00C3707E;
 			productRefGroup = FB10B5D217133AAB00C3707E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = FB10B69B17162AF000C3707E /* Products */;
+					ProjectRef = FB10B69A17162AF000C3707E /* Sandwich_iOS.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				FB10B5D017133AAB00C3707E /* Sandwich */,
@@ -267,6 +298,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		FB10B6A017162AF100C3707E /* Sandwich_iOS.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Sandwich_iOS.app;
+			remoteRef = FB10B69F17162AF100C3707E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FB10B6A217162AF100C3707E /* Sandwich_iOSTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Sandwich_iOSTests.octest;
+			remoteRef = FB10B6A117162AF100C3707E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		FB10B5CF17133AAB00C3707E /* Resources */ = {
