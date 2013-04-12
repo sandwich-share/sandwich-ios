@@ -38,7 +38,8 @@
 - (void)main {
 	//initialize index download
 	NSMutableString* url = [[NSMutableString alloc] init];
-	[url appendFormat:@"http://%@:%d/indexfor", self.peer.ip, [self portForIP:self.peer.ip]];
+    self.peer.port = [self portForIP:self.peer.ip];
+	[url appendFormat:@"http://%@:%d/fileindex", self.peer.ip, self.peer.port];
 	NSURL* peerURL = [NSURL URLWithString:url];
 	//NSData* index = [NSData dataWithContentsOfURL:peerURL];*/
 	

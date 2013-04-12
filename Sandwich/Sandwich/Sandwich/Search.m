@@ -53,16 +53,12 @@
     {
         if ((errorCode = sqlite3_bind_text(searchStatement, 1, search, -1, SQLITE_STATIC)) == SQLITE_OK) {
             unsigned int numResults = 0;
-            NSIndexPath* path;
             while (sqlite3_step(searchStatement) == SQLITE_ROW) {
                 numResults++;
                 //NSLog(@"Trying to add: %s", sqlite3_column_text(searchStatement, 0));
-                NSString* resultToAdd = [[NSString alloc] initWithUTF8String:sqlite3_column_text(searchStatement, 0)];
+                NSString* resultToAdd = [[NSString alloc] initWithUTF8String:(char*)sqlite3_column_text(searchStatement, 0)];
                 
-                //[searchResults addObject:resultToAdd];
-                path = [NSIndexPath indexPathForRow:self.index inSection:0];
-                [self.tableview addSearchResults:resultToAdd rowsToInsert:[NSArray arrayWithObject:path]];
-                self.index++;
+                [self.tableview addSearchResults:resultToAdd peer:peer];
                 if ([self isCancelled]) {
                     NSLog(@"Search is cancelled");
                     break;
@@ -70,7 +66,7 @@
             }
             
             NSLog(@"Number of results: %d", numResults);
-        
+            [self.tableview redraw];
         }
         else {
             NSLog(@"Failed to bind search parameter: %d", errorCode);
@@ -93,15 +89,9 @@
 - (Search*) initWithSearchParam:(NSString*)searchParam tableViewController:(ViewController *)tableView {
     self.searchParam = searchParam;
     self.tableview = tableView;
-    self.index = 0;
-    NSIndexPath* path;
-    NSMutableArray* indexArray = [[NSMutableArray alloc]initWithCapacity:self.tableview.results.count];
-    for (int i = 0; i < self.tableview.results.count; i++) {
-        path = [NSIndexPath indexPathForRow:i inSection:0];
-        [indexArray addObject:path];
-    }
     [self.tableview.results removeAllObjects];
-    [self.tableview.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableview.peers removeAllObjects];
+    [self.tableview redraw];
     return [super init];
 }
 

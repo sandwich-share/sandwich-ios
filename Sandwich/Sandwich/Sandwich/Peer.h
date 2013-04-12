@@ -12,6 +12,7 @@
 @property NSString* ip;
 @property NSNumber* hash;
 @property NSString* timestamp;
+@property int port;
 
 - (Peer*)initWithIP:(NSString*)ip hash:(NSNumber*)hash timestamp:(NSString*)timestamp;
 @end

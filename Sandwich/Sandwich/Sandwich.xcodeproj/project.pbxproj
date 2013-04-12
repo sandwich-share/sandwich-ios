@@ -29,6 +29,11 @@
 		FB10B7541717127000C3707E /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B74F1717127000C3707E /* Peer.m */; };
 		FB10B7551717127000C3707E /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B7511717127000C3707E /* Search.m */; };
 		FB10B7571717138600C3707E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B7561717138600C3707E /* libsqlite3.dylib */; };
+		FB10B7671717C70300C3707E /* FileOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B7651717C70100C3707E /* FileOptionsViewController.m */; };
+		FB10B7681717C70300C3707E /* FileOptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB10B7661717C70100C3707E /* FileOptionsViewController.xib */; };
+		FB10B76B1717CA1000C3707E /* DownloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B76A1717CA1000C3707E /* DownloadController.m */; };
+		FB10B7701717DE2B00C3707E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B76F1717DE2B00C3707E /* MediaPlayer.framework */; };
+		FB10B7721717F19000C3707E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B7711717F18F00C3707E /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +80,13 @@
 		FB10B7511717127000C3707E /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		FB10B7561717138600C3707E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		FB10B75817172CBE00C3707E /* Peerlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Peerlist.h; sourceTree = "<group>"; };
+		FB10B7641717C70000C3707E /* FileOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileOptionsViewController.h; sourceTree = "<group>"; };
+		FB10B7651717C70100C3707E /* FileOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileOptionsViewController.m; sourceTree = "<group>"; };
+		FB10B7661717C70100C3707E /* FileOptionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileOptionsViewController.xib; sourceTree = "<group>"; };
+		FB10B7691717CA0F00C3707E /* DownloadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadController.h; sourceTree = "<group>"; };
+		FB10B76A1717CA1000C3707E /* DownloadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadController.m; sourceTree = "<group>"; };
+		FB10B76F1717DE2B00C3707E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		FB10B7711717F18F00C3707E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +94,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB10B7721717F19000C3707E /* AVFoundation.framework in Frameworks */,
+				FB10B7701717DE2B00C3707E /* MediaPlayer.framework in Frameworks */,
 				FB10B7571717138600C3707E /* libsqlite3.dylib in Frameworks */,
 				FB10B70D1716525F00C3707E /* UIKit.framework in Frameworks */,
 				FB10B70F1716525F00C3707E /* Foundation.framework in Frameworks */,
@@ -105,6 +119,8 @@
 		FB10B7001716525E00C3707E = {
 			isa = PBXGroup;
 			children = (
+				FB10B7711717F18F00C3707E /* AVFoundation.framework */,
+				FB10B76F1717DE2B00C3707E /* MediaPlayer.framework */,
 				FB10B7561717138600C3707E /* libsqlite3.dylib */,
 				FB10B7121716525F00C3707E /* Sandwich */,
 				FB10B7391716525F00C3707E /* SandwichTests */,
@@ -151,6 +167,11 @@
 				FB10B7271716525F00C3707E /* ViewController_iPhone.xib */,
 				FB10B72A1716525F00C3707E /* ViewController_iPad.xib */,
 				FB10B7131716525F00C3707E /* Supporting Files */,
+				FB10B7641717C70000C3707E /* FileOptionsViewController.h */,
+				FB10B7651717C70100C3707E /* FileOptionsViewController.m */,
+				FB10B7661717C70100C3707E /* FileOptionsViewController.xib */,
+				FB10B7691717CA0F00C3707E /* DownloadController.h */,
+				FB10B76A1717CA1000C3707E /* DownloadController.m */,
 			);
 			path = Sandwich;
 			sourceTree = "<group>";
@@ -266,6 +287,7 @@
 				FB10B7231716525F00C3707E /* Default-568h@2x.png in Resources */,
 				FB10B7291716525F00C3707E /* ViewController_iPhone.xib in Resources */,
 				FB10B72C1716525F00C3707E /* ViewController_iPad.xib in Resources */,
+				FB10B7681717C70300C3707E /* FileOptionsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +329,8 @@
 				FB10B7531717127000C3707E /* IndexDownloadThread.m in Sources */,
 				FB10B7541717127000C3707E /* Peer.m in Sources */,
 				FB10B7551717127000C3707E /* Search.m in Sources */,
+				FB10B7671717C70300C3707E /* FileOptionsViewController.m in Sources */,
+				FB10B76B1717CA1000C3707E /* DownloadController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

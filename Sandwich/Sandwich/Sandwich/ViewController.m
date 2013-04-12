@@ -9,21 +9,63 @@
 #import "ViewController.h"
 #import "Search.h"
 #import "Peerlist.h"
+#import "DownloadController.h"
+#import <MediaPlayer/MPMoviePlayerController.h>
+#import <MediaPlayer/MPMoviePlayerViewController.h>
+#import <AVFoundation/AVAudioSession.h>
 
 @interface ViewController () {
     NSOperationQueue* searchQueue;
-    
+    Peer* peerWithClickedFile;
+    NSString* clickedFilePath;
 }
 
 @end
 
 @implementation ViewController
 
-- (void) addSearchResults:(NSString*) result rowsToInsert:(NSArray*)rows{
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex != [alertView cancelButtonIndex]) {
+        NSString *videoURLString = [[NSString stringWithFormat:@"http://%@:%d/files/%@",peerWithClickedFile.ip,peerWithClickedFile.port,clickedFilePath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSURL *videoURL = [NSURL URLWithString:videoURLString];
+        NSLog(@"VideoURL: %@", videoURLString);
+        MPMoviePlayerViewController *moviePlayerView = [[MPMoviePlayerViewController alloc] initWithContentURL:videoURL];
+        NSError* error;
+        AVAudioSession* audioSession = [AVAudioSession sharedInstance];
+        if (![audioSession setCategory:AVAudioSessionCategoryPlayback error:&error]) {
+            NSLog(@"AVAudioSession setCategory failed: %@", [error localizedDescription]);
+        }
+        if (![audioSession setActive:YES error:&error]) {
+            NSLog(@"AVAudioSession setActive:YES failed: %@", [error localizedDescription]);
+        }
+        [moviePlayerView.moviePlayer useApplicationAudioSession];
+        [self presentMoviePlayerViewControllerAnimated:moviePlayerView];
+    }
+}
+
+- (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath {
+    // Should change this so textLabel does not need to be the file path.
+    clickedFilePath = [NSString stringWithFormat:@"%@",[self.tableView cellForRowAtIndexPath:indexPath].textLabel.text];
+    peerWithClickedFile = [_peers objectAtIndex:indexPath.row];
+    
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"FileName"
+                                                      message:clickedFilePath
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:nil];
+    [message addButtonWithTitle:@"Stream this shit!"];
+    [message show];
+}
+
+- (void) addSearchResults:(NSString*) result peer:(Peer*)peer {
     [self.results addObject:result];
-    [self.tableView beginUpdates];
-    [self.tableView insertRowsAtIndexPaths:rows withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
+    [_peers addObject:peer];
+}
+
+- (void) redraw {
+    [self.tableView reloadData];
 }
 
 // Customize the appearance of table view cells.
@@ -92,7 +134,9 @@
     _searchBar.delegate = (id)self;
     _searchResults.delegate = (id)self;
     _searchResults.dataSource = (id) self;
+    [_searchResults setScrollsToTop:true];
     self.results = [[NSMutableArray alloc]init];
+    _peers = [[NSMutableArray alloc]init];
     searchQueue = [[NSOperationQueue alloc]init];
 }
 
