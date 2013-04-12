@@ -14,7 +14,7 @@
 @interface Search : NSOperation 
 @property NSString* searchParam;
 @property ViewController* tableview;
-
+@property int index;
 - (Search*)initWithSearchParam: (NSString*)searchParam tableViewController:(ViewController*)tableView;
 - (void) performSearch: (sqlite3*)indexDB peer:(Peer*)peer;
 - (void) setFinished;

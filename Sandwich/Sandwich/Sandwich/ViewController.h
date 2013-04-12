@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *searchResults;
 @property NSMutableArray* results;
+@property unsigned int numEntries;
 
-- (void) addSearchResults:(NSString *)result;
+- (void) addSearchResults:(NSString *)result rowsToInsert:(NSArray*)rows;
 @end
