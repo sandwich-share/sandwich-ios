@@ -22,9 +22,10 @@
 @end
 
 @implementation ViewController
+@synthesize results;
 
 - (void) clearResults {
-    [_results removeAllObjects];
+    [results removeAllObjects];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -36,21 +37,21 @@
         NSLog(@"VideoURL: %@", videoURLString);
         MPMoviePlayerViewController *moviePlayerView = [[MPMoviePlayerViewController alloc] initWithContentURL:videoURL];
         NSError* error;
-        AVAudioSession* audioSession = [AVAudioSession sharedInstance];
+        /*AVAudioSession* audioSession = [AVAudioSession sharedInstance];
         if (![audioSession setCategory:AVAudioSessionCategoryPlayback error:&error]) {
             NSLog(@"AVAudioSession setCategory failed: %@", [error localizedDescription]);
         }
         if (![audioSession setActive:YES error:&error]) {
             NSLog(@"AVAudioSession setActive:YES failed: %@", [error localizedDescription]);
         }
-        [moviePlayerView.moviePlayer useApplicationAudioSession];
+        [moviePlayerView.moviePlayer useApplicationAudioSession];*/
         [self presentMoviePlayerViewControllerAnimated:moviePlayerView];
     }
 }
 
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath {
     // Should change this so textLabel does not need to be the file path.
-    clickedResult = [NSString stringWithFormat:@"%@",[self.tableView cellForRowAtIndexPath:indexPath].textLabel.text];
+    clickedResult = [results objectAtIndex:indexPath.row];
     
     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Filename"//clickedResult.filename
                                                       message:clickedResult.filepath
@@ -62,7 +63,7 @@
 }
 
 - (void) addSearchResults:(NSString*)result peer:(Peer*)peer {
-    [self.results addObject:[[SearchResult alloc]initWithData:result filepath:result peer:peer]];
+    [results addObject:[[SearchResult alloc]initWithData:result filepath:result peer:peer]];
 }
 
 - (void) redraw {
@@ -85,13 +86,13 @@
     }
     
     /* Configure the cell. */
-    cell.textLabel.text = ((SearchResult*)[self.results objectAtIndex:indexPath.row]).filepath;
+    cell.textLabel.text = ((SearchResult*)[results objectAtIndex:indexPath.row]).filepath;
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [_results count];
+    return [results count];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -132,11 +133,11 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    _searchBar.delegate = (id)self;
-    _searchResults.delegate = (id)self;
-    _searchResults.dataSource = (id) self;
-    [_searchResults setScrollsToTop:true];
-    _results = [[NSMutableArray alloc]init];
+    self.searchBar.delegate = (id)self;
+    self.searchResults.delegate = (id)self;
+    self.searchResults.dataSource = (id) self;
+    [self.searchResults setScrollsToTop:true];
+    results = [[NSMutableArray alloc]init];
     searchQueue = [[NSOperationQueue alloc]init];
 }
 

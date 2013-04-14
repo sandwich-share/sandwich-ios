@@ -9,11 +9,11 @@
 #import "SearchResult.h"
 
 @implementation SearchResult
-
-- (SearchResult*) initWithData:(NSString *)filename filepath:(NSString *)filepath peer:(Peer *)peer {
-    _filename = filename;
-    _filepath = filepath;
-    _peer   = peer;
+@synthesize filename,filepath,peer;
+- (SearchResult*) initWithData:(NSString *)name filepath:(NSString *)path peer:(Peer *)p {
+    filename = name;
+    filepath = path;
+    peer   = p;
     return [super init];
 }
 
