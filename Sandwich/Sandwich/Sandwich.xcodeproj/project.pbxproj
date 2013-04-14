@@ -29,11 +29,10 @@
 		FB10B7541717127000C3707E /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B74F1717127000C3707E /* Peer.m */; };
 		FB10B7551717127000C3707E /* Search.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B7511717127000C3707E /* Search.m */; };
 		FB10B7571717138600C3707E /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B7561717138600C3707E /* libsqlite3.dylib */; };
-		FB10B7671717C70300C3707E /* FileOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B7651717C70100C3707E /* FileOptionsViewController.m */; };
-		FB10B7681717C70300C3707E /* FileOptionsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB10B7661717C70100C3707E /* FileOptionsViewController.xib */; };
-		FB10B76B1717CA1000C3707E /* DownloadController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB10B76A1717CA1000C3707E /* DownloadController.m */; };
 		FB10B7701717DE2B00C3707E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B76F1717DE2B00C3707E /* MediaPlayer.framework */; };
 		FB10B7721717F19000C3707E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B7711717F18F00C3707E /* AVFoundation.framework */; };
+		FBDF3EDA17185AD300AB0ED4 /* PerformSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDF3ED917185AD300AB0ED4 /* PerformSearch.m */; };
+		FBDF3EDD171868B900AB0ED4 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDF3EDC171868B900AB0ED4 /* SearchResult.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,13 +79,12 @@
 		FB10B7511717127000C3707E /* Search.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Search.m; sourceTree = "<group>"; };
 		FB10B7561717138600C3707E /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		FB10B75817172CBE00C3707E /* Peerlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Peerlist.h; sourceTree = "<group>"; };
-		FB10B7641717C70000C3707E /* FileOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileOptionsViewController.h; sourceTree = "<group>"; };
-		FB10B7651717C70100C3707E /* FileOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileOptionsViewController.m; sourceTree = "<group>"; };
-		FB10B7661717C70100C3707E /* FileOptionsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileOptionsViewController.xib; sourceTree = "<group>"; };
-		FB10B7691717CA0F00C3707E /* DownloadController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadController.h; sourceTree = "<group>"; };
-		FB10B76A1717CA1000C3707E /* DownloadController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadController.m; sourceTree = "<group>"; };
 		FB10B76F1717DE2B00C3707E /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		FB10B7711717F18F00C3707E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		FBDF3ED817185AD300AB0ED4 /* PerformSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformSearch.h; sourceTree = "<group>"; };
+		FBDF3ED917185AD300AB0ED4 /* PerformSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformSearch.m; sourceTree = "<group>"; };
+		FBDF3EDB171868B900AB0ED4 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResult.h; sourceTree = "<group>"; };
+		FBDF3EDC171868B900AB0ED4 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResult.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +156,8 @@
 				FB10B74D1717127000C3707E /* IndexDownloadThread.m */,
 				FB10B74E1717127000C3707E /* Peer.h */,
 				FB10B74F1717127000C3707E /* Peer.m */,
+				FBDF3ED817185AD300AB0ED4 /* PerformSearch.h */,
+				FBDF3ED917185AD300AB0ED4 /* PerformSearch.m */,
 				FB10B7501717127000C3707E /* Search.h */,
 				FB10B7511717127000C3707E /* Search.m */,
 				FB10B71B1716525F00C3707E /* AppDelegate.h */,
@@ -167,11 +167,8 @@
 				FB10B7271716525F00C3707E /* ViewController_iPhone.xib */,
 				FB10B72A1716525F00C3707E /* ViewController_iPad.xib */,
 				FB10B7131716525F00C3707E /* Supporting Files */,
-				FB10B7641717C70000C3707E /* FileOptionsViewController.h */,
-				FB10B7651717C70100C3707E /* FileOptionsViewController.m */,
-				FB10B7661717C70100C3707E /* FileOptionsViewController.xib */,
-				FB10B7691717CA0F00C3707E /* DownloadController.h */,
-				FB10B76A1717CA1000C3707E /* DownloadController.m */,
+				FBDF3EDB171868B900AB0ED4 /* SearchResult.h */,
+				FBDF3EDC171868B900AB0ED4 /* SearchResult.m */,
 			);
 			path = Sandwich;
 			sourceTree = "<group>";
@@ -287,7 +284,6 @@
 				FB10B7231716525F00C3707E /* Default-568h@2x.png in Resources */,
 				FB10B7291716525F00C3707E /* ViewController_iPhone.xib in Resources */,
 				FB10B72C1716525F00C3707E /* ViewController_iPad.xib in Resources */,
-				FB10B7681717C70300C3707E /* FileOptionsViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -329,8 +325,8 @@
 				FB10B7531717127000C3707E /* IndexDownloadThread.m in Sources */,
 				FB10B7541717127000C3707E /* Peer.m in Sources */,
 				FB10B7551717127000C3707E /* Search.m in Sources */,
-				FB10B7671717C70300C3707E /* FileOptionsViewController.m in Sources */,
-				FB10B76B1717CA1000C3707E /* DownloadController.m in Sources */,
+				FBDF3EDA17185AD300AB0ED4 /* PerformSearch.m in Sources */,
+				FBDF3EDD171868B900AB0ED4 /* SearchResult.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -523,6 +519,7 @@
 				FB10B7461716525F00C3707E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FB10B7471716525F00C3707E /* Build configuration list for PBXNativeTarget "SandwichTests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +528,7 @@
 				FB10B7491716525F00C3707E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

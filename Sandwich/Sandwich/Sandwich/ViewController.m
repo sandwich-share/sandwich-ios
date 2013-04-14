@@ -9,25 +9,28 @@
 #import "ViewController.h"
 #import "Search.h"
 #import "Peerlist.h"
-#import "DownloadController.h"
 #import <MediaPlayer/MPMoviePlayerController.h>
 #import <MediaPlayer/MPMoviePlayerViewController.h>
 #import <AVFoundation/AVAudioSession.h>
+#import "SearchResult.h"
 
 @interface ViewController () {
     NSOperationQueue* searchQueue;
-    Peer* peerWithClickedFile;
-    NSString* clickedFilePath;
+    SearchResult* clickedResult;
 }
 
 @end
 
 @implementation ViewController
 
+- (void) clearResults {
+    [_results removeAllObjects];
+}
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != [alertView cancelButtonIndex]) {
-        NSString *videoURLString = [[NSString stringWithFormat:@"http://%@:%d/files/%@",peerWithClickedFile.ip,peerWithClickedFile.port,clickedFilePath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *videoURLString = [[NSString stringWithFormat:@"http://%@:%d/files/%@",clickedResult.peer.ip,clickedResult.peer.port,clickedResult.filepath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
         NSURL *videoURL = [NSURL URLWithString:videoURLString];
         NSLog(@"VideoURL: %@", videoURLString);
@@ -47,21 +50,19 @@
 
 - (void)tableView: (UITableView *)tableView didSelectRowAtIndexPath: (NSIndexPath *)indexPath {
     // Should change this so textLabel does not need to be the file path.
-    clickedFilePath = [NSString stringWithFormat:@"%@",[self.tableView cellForRowAtIndexPath:indexPath].textLabel.text];
-    peerWithClickedFile = [_peers objectAtIndex:indexPath.row];
+    clickedResult = [NSString stringWithFormat:@"%@",[self.tableView cellForRowAtIndexPath:indexPath].textLabel.text];
     
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"FileName"
-                                                      message:clickedFilePath
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Filename"//clickedResult.filename
+                                                      message:clickedResult.filepath
                                                      delegate:self
                                             cancelButtonTitle:@"Cancel"
                                             otherButtonTitles:nil];
-    [message addButtonWithTitle:@"Stream this shit!"];
+    [message addButtonWithTitle:@"Stream this file!"];
     [message show];
 }
 
-- (void) addSearchResults:(NSString*) result peer:(Peer*)peer {
-    [self.results addObject:result];
-    [_peers addObject:peer];
+- (void) addSearchResults:(NSString*)result peer:(Peer*)peer {
+    [self.results addObject:[[SearchResult alloc]initWithData:result filepath:result peer:peer]];
 }
 
 - (void) redraw {
@@ -84,7 +85,7 @@
     }
     
     /* Configure the cell. */
-    cell.textLabel.text = [self.results objectAtIndex:indexPath.row];
+    cell.textLabel.text = ((SearchResult*)[self.results objectAtIndex:indexPath.row]).filepath;
     return cell;
 }
 
@@ -135,8 +136,7 @@
     _searchResults.delegate = (id)self;
     _searchResults.dataSource = (id) self;
     [_searchResults setScrollsToTop:true];
-    self.results = [[NSMutableArray alloc]init];
-    _peers = [[NSMutableArray alloc]init];
+    _results = [[NSMutableArray alloc]init];
     searchQueue = [[NSOperationQueue alloc]init];
 }
 

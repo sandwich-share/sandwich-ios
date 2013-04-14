@@ -13,9 +13,10 @@
 @interface ViewController : UITableViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UITableView *searchResults;
-@property NSMutableArray* results;
-@property NSMutableArray* peers;
+@property (strong, atomic) NSMutableArray* results;
 
 - (void) addSearchResults:(NSString *)result peer:(Peer*)peer;
 - (void) redraw;
+- (void) clearResults;
+
 @end
