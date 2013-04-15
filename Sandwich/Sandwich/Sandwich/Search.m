@@ -57,6 +57,7 @@
     self.searchParam = searchParam;
     self.tableview = tableView;
     _searchThreads = [[NSOperationQueue alloc]init];
+    NSLog(@"Table view: %p\n", tableView);
     [tableView clearResults];
     [self.tableview redraw];
     return [super init];

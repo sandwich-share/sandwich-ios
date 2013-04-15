@@ -25,7 +25,9 @@
 @synthesize results;
 
 - (void) clearResults {
-    [results removeAllObjects];
+    @synchronized (results) {
+        [results removeAllObjects];
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -46,6 +48,7 @@
         }
         [moviePlayerView.moviePlayer useApplicationAudioSession];*/
         [self presentMoviePlayerViewControllerAnimated:moviePlayerView];
+        [moviePlayerView.moviePlayer play];
     }
 }
 
@@ -63,7 +66,9 @@
 }
 
 - (void) addSearchResults:(NSString*)result peer:(Peer*)peer {
-    [results addObject:[[SearchResult alloc]initWithData:result filepath:result peer:peer]];
+    @synchronized (results) {
+        [results addObject:[[SearchResult alloc]initWithData:result filepath:result peer:peer]];
+    }
 }
 
 - (void) redraw {
