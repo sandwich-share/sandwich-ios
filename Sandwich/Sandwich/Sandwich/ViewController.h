@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MediaPlayer/MPMusicPlayerController.h>
 #import "Peer.h"
 
 @interface ViewController : UITableViewController <UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>

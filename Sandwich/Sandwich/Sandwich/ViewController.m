@@ -9,10 +9,8 @@
 #import "ViewController.h"
 #import "Search.h"
 #import "Peerlist.h"
-#import <MediaPlayer/MPMoviePlayerController.h>
-#import <MediaPlayer/MPMoviePlayerViewController.h>
-#import <AVFoundation/AVAudioSession.h>
 #import "SearchResult.h"
+#import "MyPlayer.h"
 
 @interface ViewController () {
     NSOperationQueue* searchQueue;
@@ -33,22 +31,9 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex != [alertView cancelButtonIndex]) {
-        NSString *videoURLString = [[NSString stringWithFormat:@"http://%@:%d/files/%@",clickedResult.peer.ip,clickedResult.peer.port,clickedResult.filepath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        NSURL *videoURL = [NSURL URLWithString:videoURLString];
-        NSLog(@"VideoURL: %@", videoURLString);
-        MPMoviePlayerViewController *moviePlayerView = [[MPMoviePlayerViewController alloc] initWithContentURL:videoURL];
-        NSError* error;
-        /*AVAudioSession* audioSession = [AVAudioSession sharedInstance];
-        if (![audioSession setCategory:AVAudioSessionCategoryPlayback error:&error]) {
-            NSLog(@"AVAudioSession setCategory failed: %@", [error localizedDescription]);
-        }
-        if (![audioSession setActive:YES error:&error]) {
-            NSLog(@"AVAudioSession setActive:YES failed: %@", [error localizedDescription]);
-        }
-        [moviePlayerView.moviePlayer useApplicationAudioSession];*/
-        [self presentMoviePlayerViewControllerAnimated:moviePlayerView];
-        [moviePlayerView.moviePlayer play];
+        ///TODO: Check if it is a movie!
+    MyPlayer* mp = [[MyPlayer alloc]initWithFile:clickedResult ViewController:self];
+    [mp startPlaying];
     }
 }
 

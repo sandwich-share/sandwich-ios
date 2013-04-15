@@ -33,6 +33,7 @@
 		FB10B7721717F19000C3707E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB10B7711717F18F00C3707E /* AVFoundation.framework */; };
 		FBDF3EDA17185AD300AB0ED4 /* PerformSearch.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDF3ED917185AD300AB0ED4 /* PerformSearch.m */; };
 		FBDF3EDD171868B900AB0ED4 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDF3EDC171868B900AB0ED4 /* SearchResult.m */; };
+		FBDF3EE0171C89FD00AB0ED4 /* MyPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = FBDF3EDF171C89FD00AB0ED4 /* MyPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +86,8 @@
 		FBDF3ED917185AD300AB0ED4 /* PerformSearch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformSearch.m; sourceTree = "<group>"; };
 		FBDF3EDB171868B900AB0ED4 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResult.h; sourceTree = "<group>"; };
 		FBDF3EDC171868B900AB0ED4 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResult.m; sourceTree = "<group>"; };
+		FBDF3EDE171C89FC00AB0ED4 /* MyPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPlayer.h; sourceTree = "<group>"; };
+		FBDF3EDF171C89FD00AB0ED4 /* MyPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,25 +153,19 @@
 		FB10B7121716525F00C3707E /* Sandwich */ = {
 			isa = PBXGroup;
 			children = (
-				FB10B74A1717127000C3707E /* Bootstrapper.h */,
-				FB10B74B1717127000C3707E /* Bootstrapper.m */,
-				FB10B74C1717127000C3707E /* IndexDownloadThread.h */,
-				FB10B74D1717127000C3707E /* IndexDownloadThread.m */,
+				FBDF3EE2171C8A3300AB0ED4 /* Bootstrapping */,
+				FBDF3EE1171C8A1E00AB0ED4 /* Search */,
 				FB10B74E1717127000C3707E /* Peer.h */,
 				FB10B74F1717127000C3707E /* Peer.m */,
-				FBDF3ED817185AD300AB0ED4 /* PerformSearch.h */,
-				FBDF3ED917185AD300AB0ED4 /* PerformSearch.m */,
-				FB10B7501717127000C3707E /* Search.h */,
-				FB10B7511717127000C3707E /* Search.m */,
 				FB10B71B1716525F00C3707E /* AppDelegate.h */,
 				FB10B71C1716525F00C3707E /* AppDelegate.m */,
+				FBDF3EDE171C89FC00AB0ED4 /* MyPlayer.h */,
+				FBDF3EDF171C89FD00AB0ED4 /* MyPlayer.m */,
 				FB10B7241716525F00C3707E /* ViewController.h */,
 				FB10B7251716525F00C3707E /* ViewController.m */,
 				FB10B7271716525F00C3707E /* ViewController_iPhone.xib */,
 				FB10B72A1716525F00C3707E /* ViewController_iPad.xib */,
 				FB10B7131716525F00C3707E /* Supporting Files */,
-				FBDF3EDB171868B900AB0ED4 /* SearchResult.h */,
-				FBDF3EDC171868B900AB0ED4 /* SearchResult.m */,
 			);
 			path = Sandwich;
 			sourceTree = "<group>";
@@ -205,6 +202,30 @@
 				FB10B73C1716525F00C3707E /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FBDF3EE1171C8A1E00AB0ED4 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				FBDF3EDB171868B900AB0ED4 /* SearchResult.h */,
+				FBDF3EDC171868B900AB0ED4 /* SearchResult.m */,
+				FBDF3ED817185AD300AB0ED4 /* PerformSearch.h */,
+				FBDF3ED917185AD300AB0ED4 /* PerformSearch.m */,
+				FB10B7501717127000C3707E /* Search.h */,
+				FB10B7511717127000C3707E /* Search.m */,
+			);
+			name = Search;
+			sourceTree = "<group>";
+		};
+		FBDF3EE2171C8A3300AB0ED4 /* Bootstrapping */ = {
+			isa = PBXGroup;
+			children = (
+				FB10B74A1717127000C3707E /* Bootstrapper.h */,
+				FB10B74B1717127000C3707E /* Bootstrapper.m */,
+				FB10B74C1717127000C3707E /* IndexDownloadThread.h */,
+				FB10B74D1717127000C3707E /* IndexDownloadThread.m */,
+			);
+			name = Bootstrapping;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -327,6 +348,7 @@
 				FB10B7551717127000C3707E /* Search.m in Sources */,
 				FBDF3EDA17185AD300AB0ED4 /* PerformSearch.m in Sources */,
 				FBDF3EDD171868B900AB0ED4 /* SearchResult.m in Sources */,
+				FBDF3EE0171C89FD00AB0ED4 /* MyPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
