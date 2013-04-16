@@ -64,7 +64,7 @@
 	
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:peerURL
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
-                                                       timeoutInterval:20];
+                                                       timeoutInterval:10];
     [request setHTTPMethod: @"GET"];
     NSError *requestError;
     NSURLResponse *urlResponse = nil;

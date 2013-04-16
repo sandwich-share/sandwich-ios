@@ -25,27 +25,65 @@
     bootstrapQueue = [[NSOperationQueue alloc]init];
 	//boot strap
 	NSString* bootstrapIP = @"129.22.166.242";
-	NSString* bootstrapPort = [NSString stringWithFormat:@"%d",[IndexDownloadThread portForPeer:bootstrapIP]];
-	NSMutableString* url = [[NSMutableString alloc] init];
-	[url appendFormat:@"http://%@:%@/peerlist", bootstrapIP, bootstrapPort];
-	NSURL* peerURL = [NSURL URLWithString:url];
-
-	NSData* peerList = [NSData dataWithContentsOfURL:peerURL];
-	NSArray* json = [NSJSONSerialization JSONObjectWithData:peerList options:kNilOptions error:nil];
-    
-	for (int i = 0; i < json.count; i++) {
-		NSString* ip = [json[i] objectForKey:@"IP"];
-		NSNumber* indexHash = [json[i] objectForKey:@"IndexHash"];
-		NSString* lastSeen = [json[i] objectForKey:@"LastSeen"];
-		Peer* peer = [[Peer alloc] initWithIP:ip hash:indexHash timestamp:lastSeen];
+    NSArray* ips = [self potentialBootstrappers];
+    if (![self tryBootstrap:bootstrapIP]) {
+        for (int i = 0; ![self tryBootstrap:[ips objectAtIndex:i]] && i < ips.count; i++) {
+        }
+    }
+    for (Peer* p in peerlist) {
+        [self downloadIndexes:p];
+    }
 ////////////////////////////////////////////////////////////////////
 // TODO: Need to check timestamp before trying to download index. //
 ////////////////////////////////////////////////////////////////////
-		[self downloadIndexes:peer];
-        [peerlist addObject:peer];
-	}
+		//[self downloadIndexes:peer];
     [bootstrapQueue waitUntilAllOperationsAreFinished];
     [self setFinished];
+}
+
+- (NSArray*) potentialBootstrappers {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+	NSString *databaseDirectory = [paths objectAtIndex:0];
+    NSFileManager* manager = [NSFileManager defaultManager];
+    NSArray *fileList = [manager contentsOfDirectoryAtPath:databaseDirectory error:nil];
+    NSMutableArray* bootsrapIPs = [[NSMutableArray alloc]init];
+    for (NSString* f in fileList) {
+        //NSLog(@"%@",f);
+        if ([[[f componentsSeparatedByString:@"."] lastObject] isEqual:@"db"]) {
+            [bootsrapIPs addObject:[f substringToIndex:[f length]-4]];
+        }
+    }
+    return [NSArray arrayWithArray:bootsrapIPs];
+}
+
+- (BOOL) tryBootstrap:(NSString *)ip {
+    NSString* urlString = [NSString stringWithFormat:@"http://%@:%d/peerlist",ip,[IndexDownloadThread portForPeer:ip]];
+    NSURL* bootstrapURL = [NSURL URLWithString:urlString];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:bootstrapURL cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:10];
+    [request setHTTPMethod:@"GET"];
+    NSError *requestError;
+    NSURLResponse *urlResponse = nil;
+    
+    NSData *peerList = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+    
+    if (peerList == NULL) {
+        NSLog(@"Failed to bootstrap to: %@", ip);
+        return FALSE;
+    }
+    else {
+        NSLog(@"Successfully bootstrapped to: %@", ip);
+        NSArray* json = [NSJSONSerialization JSONObjectWithData:peerList options:kNilOptions error:nil];
+        
+        for (int i = 0; i < json.count; i++) {
+            NSString* ip = [json[i] objectForKey:@"IP"];
+            NSNumber* indexHash = [json[i] objectForKey:@"IndexHash"];
+            NSString* lastSeen = [json[i] objectForKey:@"LastSeen"];
+            Peer* peer = [[Peer alloc] initWithIP:ip hash:indexHash timestamp:lastSeen];
+            [peerlist addObject:peer];
+        }
+        return TRUE;
+    }
 }
 
 - (BOOL) isFinished {

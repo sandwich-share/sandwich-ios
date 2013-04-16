@@ -14,5 +14,6 @@
 
 - (void) downloadIndexes: (Peer*) peer;
 - (void) setFinished;
+- (BOOL) tryBootstrap: (NSString*) ip;
 
 @end
