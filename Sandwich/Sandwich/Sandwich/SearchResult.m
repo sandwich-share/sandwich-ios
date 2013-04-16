@@ -10,7 +10,7 @@
 
 @implementation SearchResult
 @synthesize filename,filepath,peer;
-- (SearchResult*) initWithData:(NSString *)name filepath:(NSString *)path peer:(Peer *)p {
+- (SearchResult*) initWithFileName:(NSString *)name filepath:(NSString *)path peer:(Peer *)p {
     filename = name;
     filepath = path;
     peer   = p;

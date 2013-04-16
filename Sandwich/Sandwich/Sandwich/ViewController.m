@@ -30,10 +30,13 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex != [alertView cancelButtonIndex]) {
-        ///TODO: Check if it is a movie!
-    MyPlayer* mp = [[MyPlayer alloc]initWithFile:clickedResult ViewController:self];
-    [mp startPlaying];
+    NSString* buttonTitle = [alertView buttonTitleAtIndex:buttonIndex];
+    if ([buttonTitle isEqualToString:@"Stream File"]) {
+        MyPlayer* mp = [[MyPlayer alloc]initWithFile:clickedResult ViewController:self];
+        [mp startPlaying];
+    }
+    else if ([buttonTitle isEqualToString:@"Download File"]) {
+        
     }
 }
 
@@ -41,18 +44,25 @@
     // Should change this so textLabel does not need to be the file path.
     clickedResult = [results objectAtIndex:indexPath.row];
     
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"Filename"//clickedResult.filename
-                                                      message:clickedResult.filepath
-                                                     delegate:self
-                                            cancelButtonTitle:@"Cancel"
-                                            otherButtonTitles:nil];
-    [message addButtonWithTitle:@"Stream this file!"];
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:clickedResult.filename message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:nil];
+    [message addButtonWithTitle:@"Stream File"];
+    [message addButtonWithTitle:@"Download File"];
+    [message addButtonWithTitle:@"Details"];
     [message show];
 }
 
 - (void) addSearchResults:(NSString*)result peer:(Peer*)peer {
     @synchronized (results) {
-        [results addObject:[[SearchResult alloc]initWithData:result filepath:result peer:peer]];
+        NSArray* slashes = [result componentsSeparatedByString:@"/"];
+        //NSLog(@"slash: %@", [slashes objectAtIndex:[slashes count]-1]);
+        NSString* fileName;
+        if ([[slashes lastObject] length] > 30) {
+            fileName = [NSString stringWithFormat:@"%@...%@",[[slashes lastObject] substringToIndex:10],[[slashes lastObject] substringFromIndex:[[slashes lastObject]length]-15]];
+        }
+        else {
+            fileName = [slashes objectAtIndex:[slashes count]-1];
+        }
+        [results addObject:[[SearchResult alloc]initWithFileName:fileName filepath:result peer:peer]];
     }
 }
 
@@ -76,7 +86,7 @@
     }
     
     /* Configure the cell. */
-    cell.textLabel.text = ((SearchResult*)[results objectAtIndex:indexPath.row]).filepath;
+    cell.textLabel.text = ((SearchResult*)[results objectAtIndex:indexPath.row]).filename;
     return cell;
 }
 

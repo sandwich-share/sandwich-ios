@@ -14,6 +14,6 @@
 @property NSString* filename;
 @property NSString* filepath;
 
-- (SearchResult*) initWithData: (NSString*)filename filepath: (NSString*)filepath peer:(Peer*)peer;
+- (SearchResult*) initWithFileName: (NSString*)filename filepath: (NSString*)filepath peer:(Peer*)peer;
 
 @end

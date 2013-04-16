@@ -17,4 +17,5 @@
 - (unsigned short) portForIP: (NSString*) ip;
 - (IndexDownloadThread*) initWithPeer: (Peer*)peer;
 - (void) setFinished;
++ (unsigned short) portForPeer: (NSString*) ip;
 @end

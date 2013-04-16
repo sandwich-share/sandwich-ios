@@ -35,6 +35,25 @@
 	return port;
 }
 
++ (unsigned short) portForPeer: (NSString*)ip {
+	in_addr_t address = inet_addr([ip UTF8String]);
+	unsigned char addr[16], digest[16];
+	unsigned short port;
+    
+	memset(addr, 0, 16);
+	addr[10] = 0xFF;
+	addr[11] = 0xFF;
+	memcpy(&addr[12], &address, sizeof(address));
+	
+	CC_MD5( addr, 16, digest ); // This is the md5 call
+	
+	port = (digest[0] + digest[3]) << 8;
+	port += (digest[1] + digest[2]);
+	NSLog(@"%@ -> %d", ip, port);
+	return port;
+}
+
+
 - (void)main {
 	//initialize index download
 	NSMutableString* url = [[NSMutableString alloc] init];

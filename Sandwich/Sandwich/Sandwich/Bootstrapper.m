@@ -24,8 +24,8 @@
 - (void) main {
     bootstrapQueue = [[NSOperationQueue alloc]init];
 	//boot strap
-	NSString* bootstrapIP = @"129.22.160.130";
-	NSString* bootstrapPort = @"59392";
+	NSString* bootstrapIP = @"129.22.166.242";
+	NSString* bootstrapPort = [NSString stringWithFormat:@"%d",[IndexDownloadThread portForPeer:bootstrapIP]];
 	NSMutableString* url = [[NSMutableString alloc] init];
 	[url appendFormat:@"http://%@:%@/peerlist", bootstrapIP, bootstrapPort];
 	NSURL* peerURL = [NSURL URLWithString:url];
