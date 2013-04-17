@@ -10,9 +10,9 @@
 
 @interface Peer : NSObject
 @property NSString* ip;
-@property NSNumber* hash;
+@property unsigned int hash;
 @property NSString* timestamp;
 @property int port;
 
-- (Peer*)initWithIP:(NSString*)ip hash:(NSNumber*)hash timestamp:(NSString*)timestamp;
+- (Peer*)initWithIP:(NSString*)ip hash:(unsigned int)hash timestamp:(NSString*)timestamp;
 @end

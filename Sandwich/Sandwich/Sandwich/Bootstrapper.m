@@ -73,7 +73,8 @@
         
         for (int i = 0; i < json.count; i++) {
             NSString* ip = [json[i] objectForKey:@"IP"];
-            NSNumber* indexHash = [json[i] objectForKey:@"IndexHash"];
+            NSNumber* indexHashNumber = [json[i] objectForKey:@"IndexHash"];
+            unsigned int indexHash = [indexHashNumber intValue];
             NSString* lastSeen = [json[i] objectForKey:@"LastSeen"];
             Peer* peer = [[Peer alloc] initWithIP:ip hash:indexHash timestamp:lastSeen];
             [peerlist addObject:peer];

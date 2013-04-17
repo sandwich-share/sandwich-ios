@@ -54,16 +54,19 @@
 }
 
 - (BOOL) needToUpdate {
-    const char* sqlStatement = "SELECT indexhash FROM peerinfo";
+    const char* sqlStatement = "SELECT indexhash FROM peerinfo LIMIT 1";
     sqlite3_stmt* selectStatement;
     int errorCode;
-    int oldHash;
+    unsigned int oldHash = -1;
     if ((errorCode = sqlite3_prepare_v2(self.indexDB, sqlStatement, -1, &selectStatement, NULL)) == SQLITE_OK) {
+        sqlite3_step(selectStatement);
         oldHash = sqlite3_column_int(selectStatement, 0);
     }
-    NSObject* hash = [self.index objectForKey:@"IndexHash"];
-    NSLog(@"%@",hash);
-    return false;
+    NSNumber* numberOfHash = [self.index objectForKey:@"IndexHash"];
+    unsigned int newHash = [numberOfHash intValue];
+    NSLog(@"new hash for: %@, %u", self.peer.ip, newHash);
+    NSLog(@"old hash for: %@, %u", self.peer.ip, oldHash);
+    return oldHash != newHash;
 }
 
 - (NSDictionary*) getIndex {
@@ -101,66 +104,79 @@
 	{
 		NSLog(@"Fetched index for peer %@", self.peer.ip);
 	}
-    
-   	int errorCode;
-	char* errorMsg;
-    
-    sqlite3_stmt* statement;
-    NSString *sqlStmt = [NSString stringWithFormat:@"DROP TABLE IF EXISTS [%@]", self.peer.ip];
-	const char* sqlStatement = [sqlStmt UTF8String];
+    if ([self needToUpdate]) {
+        int errorCode;
+        char* errorMsg;
+        sqlite3_stmt* statement;
+        NSString *sqlStmt = [NSString stringWithFormat:@"DROP TABLE IF EXISTS [%@]", self.peer.ip];
+        const char* sqlStatement = [sqlStmt UTF8String];
 
-    if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
-        NSLog(@"Cannot drop table: %@", self.peer.ip);
-    }
-    sqlStatement = [[NSString stringWithFormat:@"CREATE TABLE [%@] (filepath TEXT PRIMARY KEY NOT NULL)",self.peer.ip] UTF8String];
-    if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
-        NSLog(@"Cannot create table: %@ Error Code: %d Error Message: %s", self.peer.ip, errorCode, errorMsg);
-    }
-    else {
-        NSLog(@"Successfully created table: %@", self.peer.ip);
-        
-        sqlStatement = "CREATE TABLE peerinfo (indexhash INTEGER, timestamp TEXT)";
+        if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+            NSLog(@"Cannot drop table: %@", self.peer.ip);
+        }
+        sqlStmt = @"DROP TABLE IF EXISTS peerinfo";
+        sqlStatement = [sqlStmt UTF8String];
         
         if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
-            NSLog(@"Cannot create peerinfo table: Error Code: %d Error Message: %s", errorCode, errorMsg);
+            NSLog(@"Cannot drop table: peerinfo");
         }
-        
-        
-        NSString* insertStmt = [NSString stringWithFormat:@"INSERT OR REPLACE INTO [%@] (filepath) VALUES (?1)", self.peer.ip];
-		const char* insertStatement = [insertStmt UTF8String];
-        
-		sqlite3_prepare_v2(self.indexDB, insertStatement, -1, &statement, NULL);
-        
-        NSLog(@"Inserting index for: %@", self.peer.ip);
-        if (sqlite3_exec(self.indexDB, "BEGIN IMMEDIATE", NULL, NULL, NULL) != SQLITE_OK)
-        {
-            NSLog(@"Failed to begin immediate");
-            [self setFinished];
-            return;
+        sqlStatement = [[NSString stringWithFormat:@"CREATE TABLE [%@] (filepath TEXT PRIMARY KEY NOT NULL)",self.peer.ip] UTF8String];
+        if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+            NSLog(@"Cannot create table: %@ Error Code: %d Error Message: %s", self.peer.ip, errorCode, errorMsg);
         }
-        NSArray* list = [self.index objectForKey:@"List"];
-		for (int i = 0; i < list.count; i++) {
-			NSDictionary* files = list[i];
-            NSString* filename = [files objectForKey:@"FileName"];
-			const char* fileName = [filename UTF8String];
-			int errorCode;
-			if ((errorCode = sqlite3_bind_text(statement, 1, fileName, -1, SQLITE_STATIC)) != SQLITE_OK) {
-				NSLog(@"Bind Error: %d", errorCode);
-			}
-			if ((errorCode = sqlite3_step(statement)) != SQLITE_DONE) {
-				NSLog(@"Inserting error: %d", errorCode);
-			}
-            //NSLog(@"Inserting: %@: %s", self.peer.ip, fileName);
-            sqlite3_reset(statement);
-        }
-        if (sqlite3_exec(self.indexDB, "END TRANSACTION", NULL, NULL, NULL) != SQLITE_OK)
-        {
-            NSLog(@"Failed to end transaction");
-            [self setFinished];
-            return;
-        }
-        NSLog(@"Finished adding index: %@", self.peer.ip);
+        else {
+            NSLog(@"Successfully created table: %@", self.peer.ip);
+        
+            sqlStatement = "CREATE TABLE peerinfo (indexhash INTEGER, timestamp TEXT)";
+        
+            if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+                NSLog(@"Cannot create peerinfo table: Error Code: %d Error Message: %s", errorCode, errorMsg);
+            }
+            sqlStatement = [[NSString stringWithFormat:@"INSERT INTO peerinfo (indexhash, timestamp) VALUES (%u,'%@')", self.peer.hash, self.peer.timestamp] UTF8String];
+            //NSLog(@"%s", sqlStatement);
+            if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+                NSLog(@"Cannot insert peerinfo: Error Code: %d Error Message: %s", errorCode, errorMsg);
+            }
+            
+            NSString* insertStmt = [NSString stringWithFormat:@"INSERT OR REPLACE INTO [%@] (filepath) VALUES (?1)", self.peer.ip];
+            const char* insertStatement = [insertStmt UTF8String];
+        
+            sqlite3_prepare_v2(self.indexDB, insertStatement, -1, &statement, NULL);
+        
+            NSLog(@"Inserting index for: %@", self.peer.ip);
+            if (sqlite3_exec(self.indexDB, "BEGIN IMMEDIATE", NULL, NULL, NULL) != SQLITE_OK)
+            {
+                NSLog(@"Failed to begin immediate");
+                [self setFinished];
+                return;
+            }
+            NSArray* list = [self.index objectForKey:@"List"];
+            for (int i = 0; i < list.count; i++) {
+                NSDictionary* files = list[i];
+                NSString* filename = [files objectForKey:@"FileName"];
+                const char* fileName = [filename UTF8String];
+                int errorCode;
+                if ((errorCode = sqlite3_bind_text(statement, 1, fileName, -1, SQLITE_STATIC)) != SQLITE_OK) {
+                    NSLog(@"Bind Error: %d", errorCode);
+                }
+                if ((errorCode = sqlite3_step(statement)) != SQLITE_DONE) {
+                    NSLog(@"Inserting error: %d", errorCode);
+                }
+                //NSLog(@"Inserting: %@: %s", self.peer.ip, fileName);
+                sqlite3_reset(statement);
+            }
+            if (sqlite3_exec(self.indexDB, "END TRANSACTION", NULL, NULL, NULL) != SQLITE_OK)
+            {
+                NSLog(@"Failed to end transaction");
+                [self setFinished];
+                return;
+            }
+            NSLog(@"Finished adding index: %@", self.peer.ip);
 
+            }
+        }
+    else {
+        NSLog(@"Do not need to update index");
     }
     [self setFinished];
 }

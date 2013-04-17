@@ -12,7 +12,7 @@
 
 @implementation Peer
 
-- (Peer*)initWithIP:(NSString*)ip hash:(NSNumber*)hash timestamp:(NSString*)timestamp {
+- (Peer*)initWithIP:(NSString*)ip hash:(unsigned int)hash timestamp:(NSString*)timestamp {
 	self.ip = ip;
 	self.hash = hash;
 	self.timestamp = timestamp;
