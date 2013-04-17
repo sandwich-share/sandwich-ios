@@ -53,14 +53,25 @@
 	return port;
 }
 
+- (BOOL) needToUpdate {
+    const char* sqlStatement = "SELECT indexhash FROM peerinfo";
+    sqlite3_stmt* selectStatement;
+    int errorCode;
+    int oldHash;
+    if ((errorCode = sqlite3_prepare_v2(self.indexDB, sqlStatement, -1, &selectStatement, NULL)) == SQLITE_OK) {
+        oldHash = sqlite3_column_int(selectStatement, 0);
+    }
+    NSObject* hash = [self.index objectForKey:@"IndexHash"];
+    NSLog(@"%@",hash);
+    return false;
+}
 
-- (void)main {
-	//initialize index download
+- (NSDictionary*) getIndex {
+    //initialize index download
 	NSMutableString* url = [[NSMutableString alloc] init];
     self.peer.port = [self portForIP:self.peer.ip];
 	[url appendFormat:@"http://%@:%d/fileindex", self.peer.ip, self.peer.port];
 	NSURL* peerURL = [NSURL URLWithString:url];
-	//NSData* index = [NSData dataWithContentsOfURL:peerURL];*/
 	
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:peerURL
                                                            cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
@@ -68,10 +79,19 @@
     [request setHTTPMethod: @"GET"];
     NSError *requestError;
     NSURLResponse *urlResponse = nil;
+    NSData* peerIndex = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+
+    if (peerIndex != NULL) {
+        return [NSJSONSerialization JSONObjectWithData:peerIndex options:kNilOptions error:nil];
+    }
+    return NULL;
+}
+
+- (void)main {
     
-    NSData *index = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+    self.index = [self getIndex];
     
-    if (index == NULL)
+    if (self.index == NULL)
 	{
 		NSLog(@"Failed to get index for peer %@", self.peer.ip);
         [self setFinished];
@@ -81,8 +101,7 @@
 	{
 		NSLog(@"Fetched index for peer %@", self.peer.ip);
 	}
-	NSDictionary* json = [NSJSONSerialization JSONObjectWithData:index options:kNilOptions error:nil];
-	
+    
    	int errorCode;
 	char* errorMsg;
     
@@ -100,6 +119,12 @@
     else {
         NSLog(@"Successfully created table: %@", self.peer.ip);
         
+        sqlStatement = "CREATE TABLE peerinfo (indexhash INTEGER, timestamp TEXT)";
+        
+        if ((errorCode = sqlite3_exec(self.indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+            NSLog(@"Cannot create peerinfo table: Error Code: %d Error Message: %s", errorCode, errorMsg);
+        }
+        
         
         NSString* insertStmt = [NSString stringWithFormat:@"INSERT OR REPLACE INTO [%@] (filepath) VALUES (?1)", self.peer.ip];
 		const char* insertStatement = [insertStmt UTF8String];
@@ -113,7 +138,7 @@
             [self setFinished];
             return;
         }
-        NSArray* list = [json objectForKey:@"List"];
+        NSArray* list = [self.index objectForKey:@"List"];
 		for (int i = 0; i < list.count; i++) {
 			NSDictionary* files = list[i];
             NSString* filename = [files objectForKey:@"FileName"];

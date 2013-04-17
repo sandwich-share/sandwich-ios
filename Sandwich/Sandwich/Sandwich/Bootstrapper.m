@@ -33,10 +33,6 @@
     for (Peer* p in peerlist) {
         [self downloadIndexes:p];
     }
-////////////////////////////////////////////////////////////////////
-// TODO: Need to check timestamp before trying to download index. //
-////////////////////////////////////////////////////////////////////
-		//[self downloadIndexes:peer];
     [bootstrapQueue waitUntilAllOperationsAreFinished];
     [self setFinished];
 }

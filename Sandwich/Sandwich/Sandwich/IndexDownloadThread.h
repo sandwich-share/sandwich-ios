@@ -13,9 +13,18 @@
 @interface IndexDownloadThread : NSOperation
 @property Peer* peer;
 @property struct sqlite3* indexDB;
+@property NSDictionary* index;
 
 - (unsigned short) portForIP: (NSString*) ip;
-- (IndexDownloadThread*) initWithPeer: (Peer*)peer;
-- (void) setFinished;
 + (unsigned short) portForPeer: (NSString*) ip;
+- (BOOL) needToUpdate;
+- (NSDictionary*) getIndex;
+- (void) setFinished;
+//- (BOOL) insertIndex;
+- (IndexDownloadThread*) initWithPeer: (Peer*)peer;
+
+
+
+
+
 @end
