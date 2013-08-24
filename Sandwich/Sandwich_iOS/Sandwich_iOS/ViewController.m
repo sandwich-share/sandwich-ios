@@ -63,7 +63,7 @@ shouldReloadTableForSearchScope:(NSInteger)searchOption
 {
     [searchBar resignFirstResponder];
     // Do the search...
-    Search* search = [[Search alloc]initWithSearchParam:searchBar.text peerlist:self.peerlist];
+    //Search* search = [[Search alloc]initWithSearchParam:searchBar.text peerlist:self.peerlist];
 
 }
 

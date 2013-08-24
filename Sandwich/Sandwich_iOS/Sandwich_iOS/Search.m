@@ -7,7 +7,7 @@
 //
 
 #import "Search.h"
-#import "MasterViewController.h"
+#import "ViewController.h"
 
 @implementation Search{
     BOOL finished;

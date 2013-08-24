@@ -426,8 +426,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sandwich_iOS/Sandwich_iOS-Prefix.pch";
 				INFOPLIST_FILE = "Sandwich_iOS/Sandwich_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -438,8 +439,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sandwich_iOS/Sandwich_iOS-Prefix.pch";
 				INFOPLIST_FILE = "Sandwich_iOS/Sandwich_iOS-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -497,6 +499,7 @@
 				FB10B69617162AF000C3707E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FB10B69717162AF000C3707E /* Build configuration list for PBXNativeTarget "Sandwich_iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -505,6 +508,7 @@
 				FB10B69917162AF000C3707E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
