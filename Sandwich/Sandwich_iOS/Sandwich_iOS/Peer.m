@@ -1,22 +1,23 @@
 //
 //  Peer.m
-//  Sandwich
+//  Sandwich_iOS
 //
-//  Created by Diego Waxemberg on 4/6/13.
+//  Created by Diego Waxemberg on 8/24/13.
 //  Copyright (c) 2013 Diego Waxemberg. All rights reserved.
 //
 
 #import "Peer.h"
 
-
-
-@implementation Peer
-
-- (Peer*)initWithIP:(NSString*)ip hash:(NSNumber*)hash timestamp:(NSString*)timestamp {
-	self.ip = ip;
-	self.hash = hash;
-	self.timestamp = timestamp;
-	return self;
+@implementation Peer {
+    NSString* Ip;
+    NSString* IndexHash;
+    NSString* LastSeen;
 }
-
+- (Peer*) initWithPeerInfo: (NSString*)ip indexhash:(NSString*)indexHash lastSeen:(NSString*)lastSeen{
+    self = [super init];
+    self->Ip = ip;
+    self->IndexHash = indexHash;
+    self->LastSeen = lastSeen;
+    return self;
+}
 @end

@@ -23,6 +23,11 @@
 		FB02A3A417C8F64B00381B9A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB02A38017C8F64A00381B9A /* UIKit.framework */; };
 		FB02A3AC17C8F64B00381B9A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB02A3AA17C8F64B00381B9A /* InfoPlist.strings */; };
 		FB02A3AE17C8F64B00381B9A /* Sandwich_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FB02A3AD17C8F64B00381B9A /* Sandwich_iOSTests.m */; };
+		FB4B9B9817C9BDF80018616F /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9417C9B1AB0018616F /* DBManager.m */; };
+		FB4B9B9917C9BDF80018616F /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9717C9B2BC0018616F /* Peer.m */; };
+		FB4B9B9B17C9BF8D0018616F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */; };
+		FB4B9BA017C9CC660018616F /* Bootsrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9D17C9C85D0018616F /* Bootsrapper.m */; };
+		FB4B9BA117C9CC6B0018616F /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +63,15 @@
 		FB02A3A917C8F64B00381B9A /* Sandwich_iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sandwich_iOSTests-Info.plist"; sourceTree = "<group>"; };
 		FB02A3AB17C8F64B00381B9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FB02A3AD17C8F64B00381B9A /* Sandwich_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Sandwich_iOSTests.m; sourceTree = "<group>"; };
+		FB4B9B9317C9B1AB0018616F /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		FB4B9B9417C9B1AB0018616F /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		FB4B9B9617C9B2BC0018616F /* Peer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Peer.h; sourceTree = "<group>"; };
+		FB4B9B9717C9B2BC0018616F /* Peer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Peer.m; sourceTree = "<group>"; };
+		FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		FB4B9B9C17C9C85D0018616F /* Bootsrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bootsrapper.h; sourceTree = "<group>"; };
+		FB4B9B9D17C9C85D0018616F /* Bootsrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bootsrapper.m; sourceTree = "<group>"; };
+		FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionManager.h; sourceTree = "<group>"; };
+		FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectionManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB4B9B9B17C9BF8D0018616F /* libsqlite3.dylib in Frameworks */,
 				FB02A37F17C8F64A00381B9A /* CoreGraphics.framework in Frameworks */,
 				FB02A38117C8F64A00381B9A /* UIKit.framework in Frameworks */,
 				FB02A37D17C8F64A00381B9A /* Foundation.framework in Frameworks */,
@@ -106,6 +121,7 @@
 		FB02A37B17C8F64A00381B9A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */,
 				FB02A37C17C8F64A00381B9A /* Foundation.framework */,
 				FB02A37E17C8F64A00381B9A /* CoreGraphics.framework */,
 				FB02A38017C8F64A00381B9A /* UIKit.framework */,
@@ -117,16 +133,17 @@
 		FB02A38217C8F64B00381B9A /* Sandwich_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				FB02A38B17C8F64B00381B9A /* AppDelegate.h */,
-				FB02A38C17C8F64B00381B9A /* AppDelegate.m */,
-				FB02A38E17C8F64B00381B9A /* Main_iPhone.storyboard */,
-				FB02A39117C8F64B00381B9A /* Main_iPad.storyboard */,
-				FB02A39417C8F64B00381B9A /* FirstViewController.h */,
-				FB02A39517C8F64B00381B9A /* FirstViewController.m */,
-				FB02A39717C8F64B00381B9A /* SecondViewController.h */,
-				FB02A39817C8F64B00381B9A /* SecondViewController.m */,
+				FB4B9B9517C9B1BC0018616F /* Main */,
 				FB02A39A17C8F64B00381B9A /* Images.xcassets */,
 				FB02A38317C8F64B00381B9A /* Supporting Files */,
+				FB4B9B9317C9B1AB0018616F /* DBManager.h */,
+				FB4B9B9417C9B1AB0018616F /* DBManager.m */,
+				FB4B9B9617C9B2BC0018616F /* Peer.h */,
+				FB4B9B9717C9B2BC0018616F /* Peer.m */,
+				FB4B9B9C17C9C85D0018616F /* Bootsrapper.h */,
+				FB4B9B9D17C9C85D0018616F /* Bootsrapper.m */,
+				FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */,
+				FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */,
 			);
 			path = Sandwich_iOS;
 			sourceTree = "<group>";
@@ -158,6 +175,21 @@
 				FB02A3AA17C8F64B00381B9A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		FB4B9B9517C9B1BC0018616F /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				FB02A38B17C8F64B00381B9A /* AppDelegate.h */,
+				FB02A38C17C8F64B00381B9A /* AppDelegate.m */,
+				FB02A38E17C8F64B00381B9A /* Main_iPhone.storyboard */,
+				FB02A39117C8F64B00381B9A /* Main_iPad.storyboard */,
+				FB02A39417C8F64B00381B9A /* FirstViewController.h */,
+				FB02A39517C8F64B00381B9A /* FirstViewController.m */,
+				FB02A39717C8F64B00381B9A /* SecondViewController.h */,
+				FB02A39817C8F64B00381B9A /* SecondViewController.m */,
+			);
+			name = Main;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +290,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB4B9BA117C9CC6B0018616F /* ConnectionManager.m in Sources */,
+				FB4B9BA017C9CC660018616F /* Bootsrapper.m in Sources */,
+				FB4B9B9817C9BDF80018616F /* DBManager.m in Sources */,
+				FB4B9B9917C9BDF80018616F /* Peer.m in Sources */,
 				FB02A39917C8F64B00381B9A /* SecondViewController.m in Sources */,
 				FB02A38D17C8F64B00381B9A /* AppDelegate.m in Sources */,
 				FB02A39617C8F64B00381B9A /* FirstViewController.m in Sources */,
@@ -397,6 +433,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sandwich_iOS/Sandwich_iOS-Prefix.pch";
 				INFOPLIST_FILE = "Sandwich_iOS/Sandwich_iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -410,6 +447,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sandwich_iOS/Sandwich_iOS-Prefix.pch";
 				INFOPLIST_FILE = "Sandwich_iOS/Sandwich_iOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -474,6 +512,7 @@
 				FB02A3B317C8F64B00381B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FB02A3B417C8F64B00381B9A /* Build configuration list for PBXNativeTarget "Sandwich_iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -482,6 +521,7 @@
 				FB02A3B617C8F64B00381B9A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

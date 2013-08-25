@@ -1,5 +1,5 @@
 //
-//  Peer.h
+//  DBManager.h
 //  Sandwich_iOS
 //
 //  Created by Diego Waxemberg on 8/24/13.
@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <sqlite3.h>
+#import "Peer.h"
 
-@interface Peer : NSObject
-
-- (Peer*) initWithPeerInfo: (NSString*)ip indexhash:(NSString*)indexHash lastSeen:(NSString*)lastSeen;
-
+@interface DBManager : NSObject
+- (NSArray*) getPeersForBootstrap;
 @end
