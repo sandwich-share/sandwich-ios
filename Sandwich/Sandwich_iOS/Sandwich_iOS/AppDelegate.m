@@ -7,13 +7,16 @@
 //
 
 #import "AppDelegate.h"
+#import "MainHandler.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    // should instantiate an obejct to check shit
+    // start up the main handler thread
+    NSOperationQueue* bootstrapQueue = [[NSOperationQueue alloc] init];
+    [bootstrapQueue addOperation:[[MainHandler alloc]init]];
     return YES;
 }
 							

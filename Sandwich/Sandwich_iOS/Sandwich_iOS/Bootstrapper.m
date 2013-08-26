@@ -6,26 +6,29 @@
 //  Copyright (c) 2013 Diego Waxemberg. All rights reserved.
 //
 
-#import "Bootsrapper.h"
+#import "Bootstrapper.h"
 #import "ConnectionManager.h"
 #import "DBManager.h"
+#import "MainHandler.h"
 
-@implementation Bootsrapper {
+@implementation Bootstrapper {
     ConnectionManager* conMan;
 }
 
-- (void) main {
+- (void) strapMeToAPeer {
     DBManager* dbMan = [[DBManager alloc] init];
     NSArray* peers = [dbMan getPeersForBootstrap];
     
     if (peers == NULL) {
         NSLog(@"Shit bro we ain't got no peers!");
-        //try to connect to the peer in settings and if that fails do something else
+
     } else {
+        NSLog(@"Got some peers, searching for a peerlist");
         for (int i = 0; i < peers.count; i++) {
             NSArray* peerlist = [conMan getPeerList:[peers objectAtIndex:i]];
             if (peerlist != NULL) {
-                //set some static array to that peerlist (or just do the rest of the setup in this class)
+                [MainHandler setPeerList:peerlist];
+                NSLog(@"Setting peerlist with %d peers.", peerlist.count);
                 break;
             }
         }
@@ -33,7 +36,7 @@
 }
 
 
-- (Bootsrapper*) init {
+- (Bootstrapper*) init {
     self = [super init];
     conMan = [[ConnectionManager alloc] init];
     return self;

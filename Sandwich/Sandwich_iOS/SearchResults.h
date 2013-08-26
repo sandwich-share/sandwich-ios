@@ -1,5 +1,5 @@
 //
-//  ConnectionManager.h
+//  SearchResults.h
 //  Sandwich_iOS
 //
 //  Created by Diego Waxemberg on 8/25/13.
@@ -9,9 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Peer.h"
 
-@interface ConnectionManager : NSObject
+@interface SearchResults : NSObject
 
-- (NSArray*) getPeerList:(Peer*)peer;
-+ (unsigned short) portForIP:(NSString*)ip;
-
+- (void) addResult:(Peer*)peer filePath:(NSString*)filePath;
+- (id) initResult: (Peer*)peer filePath:(NSString*)filePath;
 @end

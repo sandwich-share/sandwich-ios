@@ -26,8 +26,12 @@
 		FB4B9B9817C9BDF80018616F /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9417C9B1AB0018616F /* DBManager.m */; };
 		FB4B9B9917C9BDF80018616F /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9717C9B2BC0018616F /* Peer.m */; };
 		FB4B9B9B17C9BF8D0018616F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */; };
-		FB4B9BA017C9CC660018616F /* Bootsrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9D17C9C85D0018616F /* Bootsrapper.m */; };
+		FB4B9BA017C9CC660018616F /* Bootstrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9D17C9C85D0018616F /* Bootstrapper.m */; };
 		FB4B9BA117C9CC6B0018616F /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */; };
+		FB4B9BA417CA58850018616F /* MainHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9BA317CA55BF0018616F /* MainHandler.m */; };
+		FB4B9BA717CA932B0018616F /* SearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9BA617CA932B0018616F /* SearchManager.m */; };
+		FB4B9BAB17CA95100018616F /* SearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9BAA17CA95100018616F /* SearchResults.m */; };
+		FB4B9BAE17CA9A510018616F /* SearchThread.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9BAD17CA9A510018616F /* SearchThread.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,15 +67,23 @@
 		FB02A3A917C8F64B00381B9A /* Sandwich_iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sandwich_iOSTests-Info.plist"; sourceTree = "<group>"; };
 		FB02A3AB17C8F64B00381B9A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FB02A3AD17C8F64B00381B9A /* Sandwich_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Sandwich_iOSTests.m; sourceTree = "<group>"; };
-		FB4B9B9317C9B1AB0018616F /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
-		FB4B9B9417C9B1AB0018616F /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
-		FB4B9B9617C9B2BC0018616F /* Peer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Peer.h; sourceTree = "<group>"; };
-		FB4B9B9717C9B2BC0018616F /* Peer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Peer.m; sourceTree = "<group>"; };
+		FB4B9B9317C9B1AB0018616F /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DBManager.h; path = Sandwich_iOS/DBManager.h; sourceTree = "<group>"; };
+		FB4B9B9417C9B1AB0018616F /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DBManager.m; path = Sandwich_iOS/DBManager.m; sourceTree = "<group>"; };
+		FB4B9B9617C9B2BC0018616F /* Peer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Peer.h; path = Sandwich_iOS/Peer.h; sourceTree = "<group>"; };
+		FB4B9B9717C9B2BC0018616F /* Peer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Peer.m; path = Sandwich_iOS/Peer.m; sourceTree = "<group>"; };
 		FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
-		FB4B9B9C17C9C85D0018616F /* Bootsrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bootsrapper.h; sourceTree = "<group>"; };
-		FB4B9B9D17C9C85D0018616F /* Bootsrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Bootsrapper.m; sourceTree = "<group>"; };
-		FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectionManager.h; sourceTree = "<group>"; };
-		FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectionManager.m; sourceTree = "<group>"; };
+		FB4B9B9C17C9C85D0018616F /* Bootstrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Bootstrapper.h; path = Sandwich_iOS/Bootstrapper.h; sourceTree = "<group>"; };
+		FB4B9B9D17C9C85D0018616F /* Bootstrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Bootstrapper.m; path = Sandwich_iOS/Bootstrapper.m; sourceTree = "<group>"; };
+		FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ConnectionManager.h; path = Sandwich_iOS/ConnectionManager.h; sourceTree = "<group>"; };
+		FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ConnectionManager.m; path = Sandwich_iOS/ConnectionManager.m; sourceTree = "<group>"; };
+		FB4B9BA217CA55BF0018616F /* MainHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainHandler.h; sourceTree = "<group>"; };
+		FB4B9BA317CA55BF0018616F /* MainHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainHandler.m; sourceTree = "<group>"; };
+		FB4B9BA517CA932B0018616F /* SearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchManager.h; sourceTree = "<group>"; };
+		FB4B9BA617CA932B0018616F /* SearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchManager.m; sourceTree = "<group>"; };
+		FB4B9BA917CA95100018616F /* SearchResults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchResults.h; sourceTree = "<group>"; };
+		FB4B9BAA17CA95100018616F /* SearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResults.m; sourceTree = "<group>"; };
+		FB4B9BAC17CA9A510018616F /* SearchThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchThread.h; path = Sandwich_iOS/SearchThread.h; sourceTree = "<group>"; };
+		FB4B9BAD17CA9A510018616F /* SearchThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchThread.m; path = Sandwich_iOS/SearchThread.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,17 +145,10 @@
 		FB02A38217C8F64B00381B9A /* Sandwich_iOS */ = {
 			isa = PBXGroup;
 			children = (
-				FB4B9B9517C9B1BC0018616F /* Main */,
+				FB4B9BA817CA933E0018616F /* Backend */,
+				FB4B9B9517C9B1BC0018616F /* Frontend */,
 				FB02A39A17C8F64B00381B9A /* Images.xcassets */,
 				FB02A38317C8F64B00381B9A /* Supporting Files */,
-				FB4B9B9317C9B1AB0018616F /* DBManager.h */,
-				FB4B9B9417C9B1AB0018616F /* DBManager.m */,
-				FB4B9B9617C9B2BC0018616F /* Peer.h */,
-				FB4B9B9717C9B2BC0018616F /* Peer.m */,
-				FB4B9B9C17C9C85D0018616F /* Bootsrapper.h */,
-				FB4B9B9D17C9C85D0018616F /* Bootsrapper.m */,
-				FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */,
-				FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */,
 			);
 			path = Sandwich_iOS;
 			sourceTree = "<group>";
@@ -177,7 +182,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		FB4B9B9517C9B1BC0018616F /* Main */ = {
+		FB4B9B9517C9B1BC0018616F /* Frontend */ = {
 			isa = PBXGroup;
 			children = (
 				FB02A38B17C8F64B00381B9A /* AppDelegate.h */,
@@ -189,7 +194,31 @@
 				FB02A39717C8F64B00381B9A /* SecondViewController.h */,
 				FB02A39817C8F64B00381B9A /* SecondViewController.m */,
 			);
-			name = Main;
+			name = Frontend;
+			sourceTree = "<group>";
+		};
+		FB4B9BA817CA933E0018616F /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				FB4B9BA217CA55BF0018616F /* MainHandler.h */,
+				FB4B9BA317CA55BF0018616F /* MainHandler.m */,
+				FB4B9BA517CA932B0018616F /* SearchManager.h */,
+				FB4B9BA617CA932B0018616F /* SearchManager.m */,
+				FB4B9B9317C9B1AB0018616F /* DBManager.h */,
+				FB4B9B9417C9B1AB0018616F /* DBManager.m */,
+				FB4B9B9617C9B2BC0018616F /* Peer.h */,
+				FB4B9B9717C9B2BC0018616F /* Peer.m */,
+				FB4B9B9C17C9C85D0018616F /* Bootstrapper.h */,
+				FB4B9B9D17C9C85D0018616F /* Bootstrapper.m */,
+				FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */,
+				FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */,
+				FB4B9BA917CA95100018616F /* SearchResults.h */,
+				FB4B9BAA17CA95100018616F /* SearchResults.m */,
+				FB4B9BAC17CA9A510018616F /* SearchThread.h */,
+				FB4B9BAD17CA9A510018616F /* SearchThread.m */,
+			);
+			name = Backend;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -290,8 +319,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB4B9BA417CA58850018616F /* MainHandler.m in Sources */,
 				FB4B9BA117C9CC6B0018616F /* ConnectionManager.m in Sources */,
-				FB4B9BA017C9CC660018616F /* Bootsrapper.m in Sources */,
+				FB4B9BAB17CA95100018616F /* SearchResults.m in Sources */,
+				FB4B9BAE17CA9A510018616F /* SearchThread.m in Sources */,
+				FB4B9BA017C9CC660018616F /* Bootstrapper.m in Sources */,
+				FB4B9BA717CA932B0018616F /* SearchManager.m in Sources */,
 				FB4B9B9817C9BDF80018616F /* DBManager.m in Sources */,
 				FB4B9B9917C9BDF80018616F /* Peer.m in Sources */,
 				FB02A39917C8F64B00381B9A /* SecondViewController.m in Sources */,

@@ -10,6 +10,10 @@
 
 @interface Peer : NSObject
 
-- (Peer*) initWithPeerInfo: (NSString*)ip indexhash:(NSString*)indexHash lastSeen:(NSString*)lastSeen;
+- (Peer*) initWithPeerInfo: (NSString*)ip indexhash:(NSNumber*)indexHash lastSeen:(NSString*)lastSeen;
+- (NSString*) getIp;
+- (NSNumber*) getIndexHash;
+- (NSString*) getLastSeen;
+
 
 @end

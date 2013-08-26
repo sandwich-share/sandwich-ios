@@ -1,5 +1,5 @@
 //
-//  ConnectionManager.h
+//  Bootstrapper.h
 //  Sandwich_iOS
 //
 //  Created by Diego Waxemberg on 8/25/13.
@@ -7,11 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Peer.h"
 
-@interface ConnectionManager : NSObject
 
-- (NSArray*) getPeerList:(Peer*)peer;
-+ (unsigned short) portForIP:(NSString*)ip;
+@interface Bootstrapper : NSObject
+
+- (void) strapMeToAPeer;
 
 @end

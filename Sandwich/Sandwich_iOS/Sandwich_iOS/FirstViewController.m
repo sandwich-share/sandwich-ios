@@ -14,6 +14,12 @@
 
 @implementation FirstViewController
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"Searching for: %@", searchBar.text);
+    [self.view endEditing:TRUE];
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -1,5 +1,5 @@
 //
-//  Bootsrapper.h
+//  SearchThread.h
 //  Sandwich_iOS
 //
 //  Created by Diego Waxemberg on 8/25/13.
@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#include <sqlite3.h>
+#import "Peer.h"
 
-
-@interface Bootsrapper : NSOperation
+@interface SearchThread : NSOperation
 
 @end

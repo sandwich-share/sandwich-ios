@@ -10,10 +10,23 @@
 
 @implementation Peer {
     NSString* Ip;
-    NSString* IndexHash;
+    NSNumber* IndexHash;
     NSString* LastSeen;
 }
-- (Peer*) initWithPeerInfo: (NSString*)ip indexhash:(NSString*)indexHash lastSeen:(NSString*)lastSeen{
+
+- (NSString*) getIp {
+    return self->Ip;
+}
+
+- (NSNumber*) getIndexHash {
+    return self->IndexHash;
+}
+
+- (NSString*) getLastSeen {
+    return self->LastSeen;
+}
+
+- (Peer*) initWithPeerInfo: (NSString*)ip indexhash:(NSNumber*)indexHash lastSeen:(NSString*)lastSeen{
     self = [super init];
     self->Ip = ip;
     self->IndexHash = indexHash;
