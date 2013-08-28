@@ -8,6 +8,7 @@
 
 #import "MainHandler.h"
 #import "Bootstrapper.h"
+#import "DBManager.h"
 
 @implementation MainHandler
 static NSArray* PeerList;
@@ -17,6 +18,8 @@ static SearchManager* searchMan;
 
 + (void) setPeerList:(NSArray*)peerlist {
     PeerList = peerlist;
+    DBManager* dbMan = [[DBManager alloc]init];
+    [dbMan writePeerListToDatabase:peerlist];
 }
 
 + (NSArray*) getPeerList {
@@ -44,7 +47,7 @@ static SearchManager* searchMan;
     NSLog(@"Main Handler is getting strapped");
     Bootstrapper* bs = [[Bootstrapper alloc] init];
     [bs strapMeToAPeer];
-    
+    [bs downloadIndexes];
 }
 
 @end

@@ -11,5 +11,8 @@
 #import "Peer.h"
 
 @interface DBManager : NSObject
-- (NSArray*) getPeersForBootstrap;
+- (NSMutableArray*) getPeersForBootstrap;
+- (void) writeIndexToDatabase:(NSArray*)index peer:(Peer*)peer;
+- (void) writePeerListToDatabase:(NSArray*)peerlist;
+
 @end

@@ -12,5 +12,6 @@
 @interface Bootstrapper : NSObject
 
 - (void) strapMeToAPeer;
+- (void) downloadIndexes;
 
 @end

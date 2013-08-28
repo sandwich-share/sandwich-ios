@@ -32,6 +32,7 @@
 		FB4B9BA717CA932B0018616F /* SearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9BA617CA932B0018616F /* SearchManager.m */; };
 		FB4B9BAB17CA95100018616F /* SearchResults.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9BAA17CA95100018616F /* SearchResults.m */; };
 		FB4B9BAE17CA9A510018616F /* SearchThread.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9BAD17CA9A510018616F /* SearchThread.m */; };
+		FB7D257917CBE64200540131 /* IndexDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = FB7D257817CBE64200540131 /* IndexDownloader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +85,8 @@
 		FB4B9BAA17CA95100018616F /* SearchResults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchResults.m; sourceTree = "<group>"; };
 		FB4B9BAC17CA9A510018616F /* SearchThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchThread.h; path = Sandwich_iOS/SearchThread.h; sourceTree = "<group>"; };
 		FB4B9BAD17CA9A510018616F /* SearchThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchThread.m; path = Sandwich_iOS/SearchThread.m; sourceTree = "<group>"; };
+		FB7D257717CBE64200540131 /* IndexDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexDownloader.h; sourceTree = "<group>"; };
+		FB7D257817CBE64200540131 /* IndexDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexDownloader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,6 +219,8 @@
 				FB4B9BAA17CA95100018616F /* SearchResults.m */,
 				FB4B9BAC17CA9A510018616F /* SearchThread.h */,
 				FB4B9BAD17CA9A510018616F /* SearchThread.m */,
+				FB7D257717CBE64200540131 /* IndexDownloader.h */,
+				FB7D257817CBE64200540131 /* IndexDownloader.m */,
 			);
 			name = Backend;
 			path = ..;
@@ -321,6 +326,7 @@
 			files = (
 				FB4B9BA417CA58850018616F /* MainHandler.m in Sources */,
 				FB4B9BA117C9CC6B0018616F /* ConnectionManager.m in Sources */,
+				FB7D257917CBE64200540131 /* IndexDownloader.m in Sources */,
 				FB4B9BAB17CA95100018616F /* SearchResults.m in Sources */,
 				FB4B9BAE17CA9A510018616F /* SearchThread.m in Sources */,
 				FB4B9BA017C9CC660018616F /* Bootstrapper.m in Sources */,

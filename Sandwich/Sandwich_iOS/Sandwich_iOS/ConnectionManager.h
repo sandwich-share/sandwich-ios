@@ -13,5 +13,6 @@
 
 - (NSArray*) getPeerList:(Peer*)peer;
 + (unsigned short) portForIP:(NSString*)ip;
+- (NSArray*) getIndex:(Peer*)peer;
 
 @end

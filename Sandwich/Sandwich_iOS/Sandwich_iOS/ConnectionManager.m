@@ -42,6 +42,40 @@
     }
 }
 
+- (NSArray *)getIndex:(Peer *)peer {
+    //initialize index download
+	NSMutableString* url = [[NSMutableString alloc] init];
+	[url appendFormat:@"http://%@:%d/indexfor", [peer getIp], [ConnectionManager portForIP:[peer getIp]]];
+	NSURL* peerURL = [NSURL URLWithString:url];
+	
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:peerURL
+                                                           cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData
+                                                       timeoutInterval:1];
+    [request setHTTPMethod: @"GET"];
+    NSError *requestError;
+    NSURLResponse *urlResponse = nil;
+    
+    NSData* index = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&requestError];
+    
+    
+    if (index == NULL) {
+		NSLog(@"Failed to get index for peer %@", [peer getIp]);
+		return NULL;
+	} else {
+		NSLog(@"Fetched index for peer %@", [peer getIp]);
+	}
+	NSDictionary* json = [NSJSONSerialization JSONObjectWithData:index options:kNilOptions error:nil];
+    NSArray* list = [json objectForKey:@"List"];
+    NSMutableArray* peerIndex = [[NSMutableArray alloc] initWithCapacity:list.count];
+
+    for (int i = 0; i < list.count; i++) {
+        NSDictionary* files = list[i];
+        NSString* filename = [files objectForKey:@"FileName"];
+        [peerIndex addObject:filename];
+    }
+    return peerIndex;
+}
+
 
 + (unsigned short) portForIP: (NSString*)ip {
 	in_addr_t address = inet_addr([ip UTF8String]);
