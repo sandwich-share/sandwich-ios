@@ -8,11 +8,19 @@
 
 #import <Foundation/Foundation.h>
 #import "SearchManager.h"
+#import "DBManager.h"
+#import "ConnectionManager.h"
+#import "BootstrapManager.h"
 
 @interface MainHandler : NSOperation
-+ (void)setPeerList:(NSArray*)peerList;
-+ (NSArray*)getPeerList;
-+ (void)setInitialNode:(NSString*)ip;
-+ (NSString*)getInitialNode;
++ (void) setPeerList:(NSArray*)peerList;
++ (NSArray*) getPeerList;
++ (void) removeFromPeerList:(Peer*)peer;
++ (void) setInitialNode:(NSString*)ip;
++ (NSString*) getInitialNode;
 + (SearchManager*) getSearchManager;
++ (DBManager*) getDBManager;
++ (ConnectionManager*) getConnectionManager;
++ (BootstrapManager*) getBootstrapManager;
++ (NSOperationQueue*) getThreadPool;
 @end

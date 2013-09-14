@@ -18,9 +18,9 @@
 - (NSArray*) getPeerList:(Peer*)peer {
     NSString* ip = [peer getIp];
     unsigned short port = [ConnectionManager portForIP:ip];
-    NSString* urlString = [NSString stringWithFormat:@"http://%@:%u/peerlist", ip, port];
+    NSString* urlString = [NSString stringWithFormat:@"http://%@:%u/peerlist?type=client", ip, port];
     NSURL* url = [NSURL URLWithString:urlString];
-
+    
     NSData* peerlist = [NSData dataWithContentsOfURL:url];
     
     if (peerlist == nil) {
@@ -45,7 +45,7 @@
 - (NSArray *)getIndex:(Peer *)peer {
     //initialize index download
 	NSMutableString* url = [[NSMutableString alloc] init];
-	[url appendFormat:@"http://%@:%d/indexfor", [peer getIp], [ConnectionManager portForIP:[peer getIp]]];
+	[url appendFormat:@"http://%@:%d/fileindex?type=client", [peer getIp], [ConnectionManager portForIP:[peer getIp]]];
 	NSURL* peerURL = [NSURL URLWithString:url];
 	
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:peerURL
@@ -63,17 +63,19 @@
 		return NULL;
 	} else {
 		NSLog(@"Fetched index for peer %@", [peer getIp]);
-	}
-	NSDictionary* json = [NSJSONSerialization JSONObjectWithData:index options:kNilOptions error:nil];
-    NSArray* list = [json objectForKey:@"List"];
-    NSMutableArray* peerIndex = [[NSMutableArray alloc] initWithCapacity:list.count];
-
-    for (int i = 0; i < list.count; i++) {
-        NSDictionary* files = list[i];
-        NSString* filename = [files objectForKey:@"FileName"];
-        [peerIndex addObject:filename];
+        
+        NSDictionary* json = [NSJSONSerialization JSONObjectWithData:index options:kNilOptions error:nil];
+        NSArray* list = [json objectForKey:@"List"];
+        NSMutableArray* peerIndex = [[NSMutableArray alloc] initWithCapacity:list.count];
+        
+        for (int i = 0; i < list.count; i++) {
+            NSDictionary* files = list[i];
+            NSString* filename = [files objectForKey:@"FileName"];
+            [peerIndex addObject:filename];
+        }
+        peer = [[Peer alloc] initWithPeerInfo:[peer getIp] indexhash:[json objectForKey:@"IndexHash"] lastSeen:[json objectForKey:@"TimeStamp"]];
+        return peerIndex;
     }
-    return peerIndex;
 }
 
 

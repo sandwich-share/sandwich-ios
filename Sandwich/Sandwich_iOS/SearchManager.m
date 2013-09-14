@@ -9,39 +9,52 @@
 #import "SearchManager.h"
 #import "MainHandler.h"
 #import <sqlite3.h>
+#import "Peer.h"
+#import "SearchRunner.h"
+#import "FirstViewController.h"
 
 @implementation SearchManager {
     NSArray* PeerList;
+    NSMutableArray* results;
 }
 
-- (NSArray*)performSearch:(NSString *)searchParams {
-    NSMutableArray* allResults = [[NSMutableArray alloc] init];
+- (void) performSearch:(NSString *)searchParams viewController:(FirstViewController*)viewController {
+    [self clearResults];
     PeerList = [MainHandler getPeerList];
-    
+    NSOperationQueue* searchQueue = [[NSOperationQueue alloc] init];
     for (Peer* p in PeerList) {
         NSLog(@"Searching in peer: %@", [p getIp]);
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-        NSString *libraryDirectory = [paths objectAtIndex:0];
-        NSString* dbFileName = [NSString stringWithFormat:@"%@.db", [p getIp]];
-        
-        NSString *dataPath = [libraryDirectory stringByAppendingPathComponent:dbFileName];
-        const char * dbPath = [dataPath UTF8String];
-        NSFileManager* fileMgr = [NSFileManager defaultManager];
-        if ([fileMgr fileExistsAtPath:dataPath]) {
-            sqlite3* indexDB;
-            if (sqlite3_open(dbPath, &indexDB) == SQLITE_OK) {
-                // search the database!
-                
-            }
-            else {
-                // Shits fucked up
-                NSLog(@"Cannot reopen the database for searching: %s", dbPath);
-            }
-        }
+        SearchRunner* runner = [[SearchRunner alloc]initWithPeer:p searchParams:searchParams];
+        [searchQueue addOperation:runner];
     }
-    
-    
-    return allResults;
+    [searchQueue waitUntilAllOperationsAreFinished];
+    NSLog(@"Setting %d results", results.count);
+    [viewController setResults:results];
+}
+
+
+- (void) addResult:(SearchResult*)result {
+    @synchronized (results) {
+        [results addObject:result];
+    }
+}
+
+- (void) clearResults {
+    @synchronized (results) {
+        [results removeAllObjects];
+    }
+}
+
+- (NSArray*) getResults {
+    @synchronized (results) {
+        return results;
+    }
+}
+
+- (id)init {
+    self = [super init];
+    results = [[NSMutableArray alloc] init];
+    return self;
 }
 
 @end

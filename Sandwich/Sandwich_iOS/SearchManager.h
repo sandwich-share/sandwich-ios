@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SearchResults.h"
+#import "SearchResult.h"
+#import "FirstViewController.h"
 
 @interface SearchManager : NSObject
 
-- (SearchResults*) performSearch:(NSString*)searchParams;
+- (void) performSearch:(NSString*)searchParams viewController:(FirstViewController*)viewController;
+- (void) addResult:(SearchResult*)result;
+- (void) clearResults;
+- (NSArray*) getResults;
 
 @end

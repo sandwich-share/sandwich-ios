@@ -16,10 +16,14 @@
 }
 
 - (void)main {
+    NSLog(@"Downloading index for: %@", [MyPeer getIp]);
     ConnectionManager* conMan = [[ConnectionManager alloc] init];
     NSArray* index = [conMan getIndex:MyPeer];
-    DBManager* dbMan = [[DBManager alloc]init];
+    DBManager* dbMan = [MainHandler getDBManager];
+    NSLog(@"writing index with %d entries from peer %@ to database", index.count, [MyPeer getIp]);
     [dbMan writeIndexToDatabase:index peer:MyPeer];
+    NSLog(@"updating peerlist");
+    [dbMan updatePeerlist];
 }
 
 

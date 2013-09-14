@@ -7,14 +7,17 @@
 //
 
 #import "MainHandler.h"
-#import "Bootstrapper.h"
-#import "DBManager.h"
 
 @implementation MainHandler
 static NSArray* PeerList;
 static NSString* IP;
 static NSUserDefaults* userPrefs;
 static SearchManager* searchMan;
+static DBManager* dbMan;
+static ConnectionManager* conMan;
+static BootstrapManager* bootMan;
+
+static NSOperationQueue* threadPool;
 
 + (void) setPeerList:(NSArray*)peerlist {
     PeerList = peerlist;
@@ -24,6 +27,12 @@ static SearchManager* searchMan;
 
 + (NSArray*) getPeerList {
     return PeerList;
+}
+
++ (void) removeFromPeerList:(Peer*)peer {
+    NSMutableArray* newPeerList = [[NSMutableArray alloc]  initWithArray:PeerList];
+    [newPeerList removeObject:peer];
+    [MainHandler setPeerList:newPeerList];
 }
 
 + (void) setInitialNode:(NSString *)ip {
@@ -42,12 +51,45 @@ static SearchManager* searchMan;
     return searchMan;
 }
 
++ (DBManager *)getDBManager {
+    if (dbMan == NULL) {
+        dbMan = [[DBManager alloc] init];
+    }
+    return dbMan;
+}
+
++ (ConnectionManager *)getConnectionManager {
+    if (conMan == NULL) {
+        conMan = [[ConnectionManager alloc] init];
+    }
+    return conMan;
+}
+
++ (BootstrapManager*) getBootstrapManager {
+    if (bootMan == NULL) {
+        bootMan = [[BootstrapManager alloc] init];
+    }
+    return bootMan;
+}
+
++ (NSOperationQueue*) getThreadPool {
+    if (threadPool == NULL) {
+        threadPool = [[NSOperationQueue alloc] init];
+        [threadPool setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
+    }
+    return threadPool;
+}
+
 - (void) main {
+    //TODO: Actually use these prefs
     userPrefs =  [NSUserDefaults standardUserDefaults];
+    
     NSLog(@"Main Handler is getting strapped");
-    Bootstrapper* bs = [[Bootstrapper alloc] init];
-    [bs strapMeToAPeer];
-    [bs downloadIndexes];
+    BootstrapManager* bMan = [MainHandler getBootstrapManager];
+    [bMan performInitialStrap];
+    if (PeerList.count > 0) {
+        [bMan startUpBootstrapTimer];
+    }
 }
 
 @end

@@ -14,5 +14,7 @@
 - (NSMutableArray*) getPeersForBootstrap;
 - (void) writeIndexToDatabase:(NSArray*)index peer:(Peer*)peer;
 - (void) writePeerListToDatabase:(NSArray*)peerlist;
+- (void) updatePeerlist;
+- (NSArray*) searchInPeer:(Peer*)peer searchParam:(NSString*)param;
 
 @end

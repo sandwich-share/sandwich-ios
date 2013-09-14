@@ -15,5 +15,4 @@
 - (NSNumber*) getIndexHash;
 - (NSString*) getLastSeen;
 
-
 @end

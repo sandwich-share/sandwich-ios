@@ -9,9 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Bootstrapper : NSObject
+@interface Bootstrapper : NSOperation
 
 - (void) strapMeToAPeer;
 - (void) downloadIndexes;
-
 @end

@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController <UISearchBarDelegate>
+@interface FirstViewController : UITableViewController <UISearchBarDelegate, UITableViewDelegate>
+
+@property NSMutableArray* searchResults;
+
+- (void) setResults:(NSMutableArray*)results;
 
 @end

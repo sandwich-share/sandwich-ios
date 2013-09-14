@@ -15,7 +15,7 @@
 {
     // Override point for customization after application launch.
     // start up the main handler thread
-    NSOperationQueue* bootstrapQueue = [[NSOperationQueue alloc] init];
+    NSOperationQueue* bootstrapQueue = [MainHandler getThreadPool];
     [bootstrapQueue addOperation:[[MainHandler alloc]init]];
     return YES;
 }

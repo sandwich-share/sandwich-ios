@@ -7,24 +7,29 @@
 //
 
 #import "DBManager.h"
+#import "MainHandler.h"
+#import "DBHandlerWrapper.h"
 
 @implementation DBManager {
-    sqlite3* indexDB;
-    NSString* peerListTable;
+    NSMutableDictionary* dbDic;
+    sqlite3* peerListDB;
 }
+NSString* peerListTable = @"peerlist";
 
 - (NSMutableArray*) getExistingPeers {
-    NSMutableArray* peers = NULL;
     int errorCode;
 	char* errorMsg;
     sqlite3_stmt* statement;
-    //open the peerlist table
+    //get the handle for peerlist table
+    sqlite3* indexDB = [self getPeerListDB];
+    
+    
     NSString *sqlStmt = [NSString stringWithFormat: @"CREATE TABLE IF NOT EXISTS '%@' (address TEXT PRIMARY KEY NOT NULL, hash INT, lastSeen TEXT)", peerListTable];
 	const char* sqlStatement = [sqlStmt UTF8String];
-    if ((errorCode = sqlite3_exec(indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
-        NSLog(@"Cannot create/open table: %@\n%s", peerListTable,errorMsg);
-    } else {
-        NSLog(@"Successfully created/opened the table: %@", peerListTable);
+   
+    NSMutableArray* peers = NULL;
+    if ((errorCode = sqlite3_exec(indexDB, sqlStatement, NULL, NULL, &errorMsg)) == SQLITE_OK) {
+        //query the table for peers
         NSString *queryStmnt = [NSString stringWithFormat: @"SELECT * FROM %@", peerListTable];
         const char *query_stmt = [queryStmnt UTF8String];
         peers = [[NSMutableArray alloc] init];
@@ -41,26 +46,25 @@
                 NSLog(@"Found peer: %@ in peerlist", ip);
             }
         }
+        if ((errorCode = sqlite3_finalize(statement)) != SQLITE_OK) {
+            NSLog(@"!!!!!!!!!! MAJOR ERROR: CANNOT RELEASE STATEMENT MEMORY !!!!!!!!!!!!!!!!!!");
+        }
+    } else {
+         NSLog(@"Cannot create/open table: %@\n%s", peerListTable,errorMsg);
     }
+    
     return peers;
 }
 
 
 - (NSMutableArray*) getPeersForBootstrap {
-    ///// Create path to the database file /////
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-	NSString *libraryDirectory = [paths objectAtIndex:0];
-    NSString* dbFileName = @"peers.db";
-    NSString *dataPath = [libraryDirectory stringByAppendingPathComponent:dbFileName];
-    const char * dbPath = [dataPath UTF8String];
-    NSMutableArray* existingPeers;
+    NSMutableArray* existingPeers = [[NSMutableArray alloc] init];
     //Try to connect to the database
-    if (sqlite3_open(dbPath, &indexDB) == SQLITE_OK) {
+    sqlite3* peerlistdb = [self getPeerListDB];
+    if (peerlistdb != nil) {
         existingPeers = [self getExistingPeers];
-    }
-    else {
-        NSLog(@"Unable to create database");
-        existingPeers = NULL;
+    } else {
+        NSLog(@"Unable to open/create peerlist database");
     }
     return existingPeers;
 }
@@ -69,23 +73,19 @@
 - (void) writeIndexToDatabase:(NSArray *)index peer:(Peer *)peer {
     int errorCode;
 	char* errorMsg;
-    ///// Create path to the database file /////
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-	NSString *libraryDirectory = [paths objectAtIndex:0];
-    NSString* dbFileName = [NSString stringWithFormat:@"%@.db", [peer getIp]];
-    NSString *dataPath = [libraryDirectory stringByAppendingPathComponent:dbFileName];
-    const char * dbPath = [dataPath UTF8String];
-    //Try to connect to the database
-    if (sqlite3_open(dbPath, &indexDB) == SQLITE_OK) {
+    //get handle to database
+    sqlite3* peerDB = [self getDBForPeer:peer];
+    if (peerDB != nil) {
         sqlite3_stmt* statement;
         NSString *sqlStmt = [NSString stringWithFormat:@"DROP TABLE IF EXISTS [%@]", [peer getIp]];
         const char* sqlStatement = [sqlStmt UTF8String];
         
-        if ((errorCode = sqlite3_exec(indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+        if ((errorCode = sqlite3_exec(peerDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
             NSLog(@"Cannot drop table: %@", [peer getIp]);
         }
+        
         sqlStatement = [[NSString stringWithFormat:@"CREATE TABLE [%@] (filepath TEXT PRIMARY KEY NOT NULL)", [peer getIp]] UTF8String];
-        if ((errorCode = sqlite3_exec(indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+        if ((errorCode = sqlite3_exec(peerDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
             NSLog(@"Cannot create table: %@ Error Code: %d Error Message: %s", [peer getIp], errorCode, errorMsg);
         }
         else {
@@ -93,55 +93,51 @@
             NSString* insertStmt = [NSString stringWithFormat:@"INSERT OR REPLACE INTO [%@] (filepath) VALUES (?1)", [peer getIp]];
             const char* insertStatement = [insertStmt UTF8String];
             
-            sqlite3_prepare_v2(indexDB, insertStatement, -1, &statement, NULL);
-            
+            sqlite3_prepare_v2(peerDB, insertStatement, -1, &statement, NULL);
+            NSLog(@"Index for: %@ size: %d", [peer getIp], index.count);
             for (NSString* file in index) {
                 const char* fileName = [file UTF8String];
                 int errorCode;
+                //NSLog(@"Inserting into: %@ : %s", [peer getIp], fileName);
                 if ((errorCode = sqlite3_bind_text(statement, 1, fileName, -1, SQLITE_STATIC)) != SQLITE_OK) {
                     NSLog(@"Bind Error: %d", errorCode);
                 }
                 if ((errorCode = sqlite3_step(statement)) != SQLITE_DONE) {
                     NSLog(@"Inserting error: %d", errorCode);
                 }
-                NSLog(@"Inserting: %@: %s", [peer getIp], fileName);
+                //NSLog(@"Inserting: %@: %s", [peer getIp], fileName);
                 sqlite3_reset(statement);
+            }
+            if ((errorCode = sqlite3_finalize(statement)) != SQLITE_OK) {
+                NSLog(@"!!!!!!!!!! MAJOR ERROR: CANNOT RELEASE STATEMENT MEMORY !!!!!!!!!!!!!!!!!!");
             }
             NSLog(@"Finished adding index: %@", [peer getIp]);
         }
-        
     }
-    else {
-        NSLog(@"Unable to create/connect database: %s", dbPath);
-    }
-    
+}
+
+- (void)updatePeerlist {
+    [self writePeerListToDatabase:[MainHandler getPeerList]];
 }
 
 - (void)writePeerListToDatabase:(NSArray *)peerlist {
     sqlite3_stmt* statement;
     int errorCode;
     char* errorMsg;
-    ///// Create path to the database file /////
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *libraryDirectory = [paths objectAtIndex:0];
-    NSString* dbFileName = @"peers.db";
-    NSString *dataPath = [libraryDirectory stringByAppendingPathComponent:dbFileName];
-    const char * dbPath = [dataPath UTF8String];
-    //Try to connect to the database
-    if (sqlite3_open(dbPath, &indexDB) == SQLITE_OK) {
+    //get handle to peerlist db
+    sqlite3* pldb = [self getPeerListDB];
+    if (pldb != nil) {
         NSString* connectStmt = [NSString stringWithFormat: @"CREATE TABLE IF NOT EXISTS '%@' (address TEXT PRIMARY KEY NOT NULL, hash INT, lastSeen TEXT)", peerListTable];
         const char* sqlStatement = [connectStmt UTF8String];
         
-        if ((errorCode = sqlite3_exec(indexDB, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
+        if ((errorCode = sqlite3_exec(pldb, sqlStatement, NULL, NULL, &errorMsg)) != SQLITE_OK) {
             NSLog(@"Cannot create/open table: %@\n%s", peerListTable, errorMsg);
             return;
-        } else {
-            NSLog(@"Successfully created/opened the table: %@", peerListTable);
-            
+        } else {            
             NSString* insertStmt = [NSString stringWithFormat:@"INSERT OR REPLACE INTO [%@] (address, hash, lastSeen) VALUES (?1, ?2, ?3)", peerListTable];
             const char* insertStatement = [insertStmt UTF8String];
             
-            if ((errorCode = sqlite3_prepare_v2(indexDB, insertStatement, -1, &statement, NULL)) != SQLITE_OK) {
+            if ((errorCode = sqlite3_prepare_v2(pldb, insertStatement, -1, &statement, NULL)) != SQLITE_OK) {
                 NSLog(@"Preparing statement failed: %d", errorCode);
                 return;
             }
@@ -162,16 +158,89 @@
                 NSLog(@"Inserting %@ into peer list", [peer getIp]);
                 sqlite3_reset(statement);
             }
+            if ((errorCode = sqlite3_finalize(statement)) != SQLITE_OK) {
+                NSLog(@"!!!!!!!!!! MAJOR ERROR: CANNOT RELEASE STATEMENT MEMORY !!!!!!!!!!!!!!!!!!");
+            }
         }
     } else {
         NSLog(@"Unable to open database");
     }
+    
 }
 
-- (DBManager*) init {
-    peerListTable = @"peerlist";
-    return [super init];
+- (NSArray *)searchInPeer:(Peer *)peer searchParam:(NSString *)param {
+    sqlite3* peerDb = [self getDBForPeer:peer];
+    sqlite3_stmt* searchStatement;
+    NSString *querySQL = [NSString stringWithFormat: @"SELECT * FROM [%@] WHERE filepath LIKE ?1", [peer getIp]];
+    NSMutableArray* resultsArray = [[NSMutableArray alloc] init];
+    
+    const char *query_stmt = [querySQL UTF8String];
+    //NSLog(@"Search Query Statment: %s", query_stmt);
+    int errorCode;
+    if ((errorCode = sqlite3_prepare_v2(peerDb, query_stmt, -1, &searchStatement, NULL)) == SQLITE_OK) {
+        if ((errorCode = sqlite3_bind_text(searchStatement, 1, [param UTF8String], -1, SQLITE_STATIC)) == SQLITE_OK) {
+           // NSLog(@"Bind was successful");
+            while (sqlite3_step(searchStatement) == SQLITE_ROW)
+            {
+                const unsigned char* text = sqlite3_column_text(searchStatement, 0);
+                SearchResult* result = [[SearchResult alloc] initWithPeer:peer filePath:[NSString stringWithFormat:@"%s", text]];
+                [resultsArray addObject:result];
+                //NSLog(@"Adding: %s", text);
+            }
+        }
+        else {
+            NSLog(@"Failed to bind search parameter: %d", errorCode);
+        }
+    }
+    else {
+        NSLog(@"Failed to prepare statement: %d", errorCode);
+    }
+    return resultsArray;
 }
 
+- (sqlite3*) createDBHandleForDB:(NSString*)db {
+    ///// Create path to the database file /////
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+    NSString *libraryDirectory = [paths objectAtIndex:0];
+    NSString *dataPath = [libraryDirectory stringByAppendingPathComponent:db];
+    const char * dbPath = [dataPath UTF8String];
+    
+    sqlite3* sqlDB ;
+    if (sqlite3_open(dbPath, &sqlDB) == SQLITE_OK) {
+        return sqlDB;
+    } else {
+        NSLog(@"Unable to open database!");
+        return nil;
+    }
+}
 
+- (sqlite3*) getDBForPeer:(Peer*)p {
+    sqlite3* db = [(DBHandlerWrapper*)[dbDic objectForKey:[p getIp]] unwrap];
+    if (db == nil) {
+        db = [self createDBHandleForDB:[p getIp]];
+        if (db != nil) {
+            [dbDic setObject:[[DBHandlerWrapper alloc] initWithHandler:db] forKey:[p getIp]];
+        }
+    }
+    return db;
+}
+
+- (sqlite3*) getPeerListDB {
+    if (peerListDB == nil) {
+        NSString* plist = @"peerlist";
+        sqlite3* db = nil;
+        db = [self createDBHandleForDB:plist];
+        if (db != nil) {
+            peerListDB = db;
+        }
+    }
+    return peerListDB;
+}
+
+- (id) init {
+    self = [super init];
+    dbDic = [[NSMutableDictionary alloc] init];
+    peerListDB = nil;
+    return self;
+}
 @end
