@@ -17,6 +17,10 @@
     return FilePath;
 }
 
+- (Peer *)getPeer {
+    return MyPeer;
+}
+
 - (id)initWithPeer:(Peer *)peer filePath:(NSString *)filePath {
     self = [super init];
     MyPeer = peer;

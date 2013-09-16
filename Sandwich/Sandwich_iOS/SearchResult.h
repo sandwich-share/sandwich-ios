@@ -13,4 +13,6 @@
 
 - (id) initWithPeer:(Peer*)peer filePath:(NSString*)filePath;
 - (NSString*) getFilePath;
+- (Peer*) getPeer;
+
 @end

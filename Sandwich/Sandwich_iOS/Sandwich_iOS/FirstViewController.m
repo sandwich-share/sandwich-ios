@@ -9,6 +9,8 @@
 #import "FirstViewController.h"
 #import "SearchManager.h"
 #import "MainHandler.h"
+#import "MediaPlayer.h"
+#import "ConnectionManager.h"
 
 @interface FirstViewController ()
 
@@ -40,7 +42,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"Cell";
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc]
@@ -53,6 +54,18 @@
     cell.textLabel.text = [(SearchResult*)[self.searchResults objectAtIndex:indexPath.row] getFilePath];
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    SearchResult* clickedResult = (SearchResult*)[self.searchResults objectAtIndex:indexPath.row];
+    NSString* filePath = [clickedResult getFilePath];
+    NSLog(@"Selected %@", filePath);
+    Peer* host = [clickedResult getPeer];
+    unsigned short port = [ConnectionManager portForIP:[host getIp]];
+    NSString* urlString = [NSString stringWithFormat:@"http://%@:%d/files/%@", [host getIp], port, filePath];
+    
+    MediaPlayer* mp = [[MediaPlayer alloc] initWithURL:urlString viewController:self];
+    [mp playMedia];
 }
 
 - (void)viewDidLoad

@@ -24,6 +24,8 @@
 		FB02A3AC17C8F64B00381B9A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FB02A3AA17C8F64B00381B9A /* InfoPlist.strings */; };
 		FB02A3AE17C8F64B00381B9A /* Sandwich_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FB02A3AD17C8F64B00381B9A /* Sandwich_iOSTests.m */; };
 		FB0AC79C17E4005200D9F75B /* DBHandlerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0AC79B17E4005200D9F75B /* DBHandlerWrapper.m */; };
+		FB25E60317E6B56D00110CC8 /* MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB25E60217E6B56D00110CC8 /* MediaPlayer.m */; };
+		FB25E60517E6B58200110CC8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB25E60417E6B58200110CC8 /* MediaPlayer.framework */; };
 		FB4B9B9817C9BDF80018616F /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9417C9B1AB0018616F /* DBManager.m */; };
 		FB4B9B9917C9BDF80018616F /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9717C9B2BC0018616F /* Peer.m */; };
 		FB4B9B9B17C9BF8D0018616F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */; };
@@ -72,6 +74,9 @@
 		FB02A3AD17C8F64B00381B9A /* Sandwich_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Sandwich_iOSTests.m; sourceTree = "<group>"; };
 		FB0AC79A17E4005200D9F75B /* DBHandlerWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBHandlerWrapper.h; path = Sandwich_iOS/DBHandlerWrapper.h; sourceTree = "<group>"; };
 		FB0AC79B17E4005200D9F75B /* DBHandlerWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBHandlerWrapper.m; path = Sandwich_iOS/DBHandlerWrapper.m; sourceTree = "<group>"; };
+		FB25E60117E6B56D00110CC8 /* MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayer.h; sourceTree = "<group>"; };
+		FB25E60217E6B56D00110CC8 /* MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayer.m; sourceTree = "<group>"; };
+		FB25E60417E6B58200110CC8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		FB4B9B9317C9B1AB0018616F /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DBManager.h; path = Sandwich_iOS/DBManager.h; sourceTree = "<group>"; };
 		FB4B9B9417C9B1AB0018616F /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DBManager.m; path = Sandwich_iOS/DBManager.m; sourceTree = "<group>"; };
 		FB4B9B9617C9B2BC0018616F /* Peer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Peer.h; path = Sandwich_iOS/Peer.h; sourceTree = "<group>"; };
@@ -100,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB25E60517E6B58200110CC8 /* MediaPlayer.framework in Frameworks */,
 				FB4B9B9B17C9BF8D0018616F /* libsqlite3.dylib in Frameworks */,
 				FB02A37F17C8F64A00381B9A /* CoreGraphics.framework in Frameworks */,
 				FB02A38117C8F64A00381B9A /* UIKit.framework in Frameworks */,
@@ -142,6 +148,7 @@
 		FB02A37B17C8F64A00381B9A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB25E60417E6B58200110CC8 /* MediaPlayer.framework */,
 				FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */,
 				FB02A37C17C8F64A00381B9A /* Foundation.framework */,
 				FB02A37E17C8F64A00381B9A /* CoreGraphics.framework */,
@@ -202,6 +209,8 @@
 				FB02A39517C8F64B00381B9A /* FirstViewController.m */,
 				FB02A39717C8F64B00381B9A /* SecondViewController.h */,
 				FB02A39817C8F64B00381B9A /* SecondViewController.m */,
+				FB25E60117E6B56D00110CC8 /* MediaPlayer.h */,
+				FB25E60217E6B56D00110CC8 /* MediaPlayer.m */,
 			);
 			name = Frontend;
 			sourceTree = "<group>";
@@ -209,23 +218,15 @@
 		FB4B9BA817CA933E0018616F /* Backend */ = {
 			isa = PBXGroup;
 			children = (
+				FBE54E6F17E42B5900A9B4D5 /* Bootstrapping */,
+				FBA95FE117DC20750029913A /* Search */,
+				FBE54E7017E42B7700A9B4D5 /* DB */,
 				FB4B9BA217CA55BF0018616F /* MainHandler.h */,
 				FB4B9BA317CA55BF0018616F /* MainHandler.m */,
-				FBA95FE117DC20750029913A /* Search */,
-				FB4B9B9317C9B1AB0018616F /* DBManager.h */,
-				FB4B9B9417C9B1AB0018616F /* DBManager.m */,
 				FB4B9B9617C9B2BC0018616F /* Peer.h */,
 				FB4B9B9717C9B2BC0018616F /* Peer.m */,
-				FB4B9B9C17C9C85D0018616F /* Bootstrapper.h */,
-				FB4B9B9D17C9C85D0018616F /* Bootstrapper.m */,
-				FB614CBB17DF923A005E3F38 /* BootstrapManager.h */,
-				FB614CBC17DF923A005E3F38 /* BootstrapManager.m */,
 				FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */,
 				FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */,
-				FB7D257717CBE64200540131 /* IndexDownloader.h */,
-				FB7D257817CBE64200540131 /* IndexDownloader.m */,
-				FB0AC79A17E4005200D9F75B /* DBHandlerWrapper.h */,
-				FB0AC79B17E4005200D9F75B /* DBHandlerWrapper.m */,
 			);
 			name = Backend;
 			path = ..;
@@ -242,6 +243,30 @@
 				FB96BDC717DB9953002FD8FD /* SearchResult.m */,
 			);
 			name = Search;
+			sourceTree = "<group>";
+		};
+		FBE54E6F17E42B5900A9B4D5 /* Bootstrapping */ = {
+			isa = PBXGroup;
+			children = (
+				FB4B9B9C17C9C85D0018616F /* Bootstrapper.h */,
+				FB4B9B9D17C9C85D0018616F /* Bootstrapper.m */,
+				FB614CBB17DF923A005E3F38 /* BootstrapManager.h */,
+				FB614CBC17DF923A005E3F38 /* BootstrapManager.m */,
+				FB7D257717CBE64200540131 /* IndexDownloader.h */,
+				FB7D257817CBE64200540131 /* IndexDownloader.m */,
+			);
+			name = Bootstrapping;
+			sourceTree = "<group>";
+		};
+		FBE54E7017E42B7700A9B4D5 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				FB4B9B9317C9B1AB0018616F /* DBManager.h */,
+				FB4B9B9417C9B1AB0018616F /* DBManager.m */,
+				FB0AC79A17E4005200D9F75B /* DBHandlerWrapper.h */,
+				FB0AC79B17E4005200D9F75B /* DBHandlerWrapper.m */,
+			);
+			name = DB;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -347,6 +372,7 @@
 				FB614CBD17DF923A005E3F38 /* BootstrapManager.m in Sources */,
 				FB4B9BA117C9CC6B0018616F /* ConnectionManager.m in Sources */,
 				FB7D257917CBE64200540131 /* IndexDownloader.m in Sources */,
+				FB25E60317E6B56D00110CC8 /* MediaPlayer.m in Sources */,
 				FB96BDC817DB9953002FD8FD /* SearchResult.m in Sources */,
 				FB4B9BA017C9CC660018616F /* Bootstrapper.m in Sources */,
 				FB0AC79C17E4005200D9F75B /* DBHandlerWrapper.m in Sources */,
