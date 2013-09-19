@@ -7,6 +7,9 @@
 //
 
 #import "Peer.h"
+#import <sys/socket.h>
+#import <netinet/in.h>
+#import <arpa/inet.h>
 
 @implementation Peer {
     NSString* Ip;
@@ -16,6 +19,11 @@
 
 - (NSString*) getIp {
     return self->Ip;
+}
+
+- (uint32_t) get32BitIp {
+    const char* ipChar = [Ip UTF8String];
+    return inet_addr(ipChar);
 }
 
 - (NSNumber*) getIndexHash {

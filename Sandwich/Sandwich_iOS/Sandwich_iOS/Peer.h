@@ -14,5 +14,5 @@
 - (NSString*) getIp;
 - (NSNumber*) getIndexHash;
 - (NSString*) getLastSeen;
-
+- (uint32_t) get32BitIp;
 @end

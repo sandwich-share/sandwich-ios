@@ -8,9 +8,9 @@
 
 #import "DBHandlerWrapper.h"
 
-@implementation DBHandlerWrapper
+@implementation DBHandlerWrapper {
 sqlite3* Handler;
-
+}
 - (id)initWithHandler:(sqlite3 *)handler {
     self = [super init];
     Handler = handler;

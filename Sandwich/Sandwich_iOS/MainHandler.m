@@ -16,10 +16,11 @@ static SearchManager* searchMan;
 static DBManager* dbMan;
 static ConnectionManager* conMan;
 static BootstrapManager* bootMan;
-
+static MediaManager* mediaMan;
 static NSOperationQueue* threadPool;
 
 + (void) setPeerList:(NSArray*)peerlist {
+    NSLog(@"Setting peerlist with %d peers", peerlist.count);
     PeerList = peerlist;
     DBManager* dbMan = [[DBManager alloc]init];
     [dbMan writePeerListToDatabase:peerlist];
@@ -40,8 +41,10 @@ static NSOperationQueue* threadPool;
     IP = ip;
 }
 
-+ (NSString*) getInitialNode {
-    return [userPrefs stringForKey:@"IP"];
++ (Peer*) getInitialNode {
+    //TODO: Make this work
+    //return [userPrefs stringForKey:@"IP"];
+    return [[Peer alloc] initWithPeerInfo:@"107.21.226.221" indexhash:NULL lastSeen:NULL];
 }
 
 + (SearchManager *)getSearchManager {
@@ -78,6 +81,13 @@ static NSOperationQueue* threadPool;
         [threadPool setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
     }
     return threadPool;
+}
+
++ (MediaManager *)getMediaManager {
+    if (mediaMan == NULL) {
+        mediaMan = [[MediaManager alloc] init];
+    }
+    return mediaMan;
 }
 
 - (void) main {

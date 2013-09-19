@@ -17,28 +17,35 @@
     ConnectionManager* conMan;
 }
 
-- (void) strapMeToAPeer {
+- (BOOL) strapMeToAPeer {
     DBManager* dbMan = [MainHandler getDBManager];
-    NSMutableArray* peers = [dbMan getPeersForBootstrap];
+    NSArray* peers = [dbMan getPeersForBootstrap];
 
-    if (peers == NULL) {
-        NSLog(@"Fuck");
-        return;
-    } else if (peers.count == 0) {
-        NSLog(@"Using initial node");
-        //TODO: Use the user specified initial node!
-        Peer* p = [[Peer alloc]initWithPeerInfo:@"107.21.226.221" indexhash:NULL lastSeen:NULL];
-        NSArray* initialNodePeers = [conMan getPeerList:p];
-        if (initialNodePeers != NULL) {
-            [peers addObjectsFromArray:initialNodePeers];
-        }
-    }
-    if (peers != NULL && peers.count > 0) {
+    if (peers.count > 0) {
         NSLog(@"Got %d peers", peers.count);
-        [MainHandler setPeerList:peers];
+        for (Peer* p in peers) {
+            NSArray* peerlist = [conMan getPeerList:p];
+            if (peerlist.count > 0) {
+                peers = peerlist;
+                break;
+            }
+        }
+        if (peers.count > 0) {
+            [MainHandler setPeerList:peers];
+            return TRUE;
+        }
     } else {
-        NSLog(@"ERROR! Could not bootstrap to a peer");
+        NSLog(@"No peers in DB, strapping to initial node");
+        NSArray* peerlist = [conMan getPeerList:[MainHandler getInitialNode]];
+        if (peerlist.count > 0) {
+            [MainHandler setPeerList:peerlist];
+        } else {
+            NSLog(@"Could not bootstrap!");
+            return FALSE;
+        }
+
     }
+    return FALSE;
 }
 
 - (void) main {

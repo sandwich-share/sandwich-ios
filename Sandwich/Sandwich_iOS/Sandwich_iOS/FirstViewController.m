@@ -9,7 +9,7 @@
 #import "FirstViewController.h"
 #import "SearchManager.h"
 #import "MainHandler.h"
-#import "MediaPlayer.h"
+#import "MediaManager.h"
 #import "ConnectionManager.h"
 
 @interface FirstViewController ()
@@ -64,8 +64,11 @@
     unsigned short port = [ConnectionManager portForIP:[host getIp]];
     NSString* urlString = [NSString stringWithFormat:@"http://%@:%d/files/%@", [host getIp], port, filePath];
     
-    MediaPlayer* mp = [[MediaPlayer alloc] initWithURL:urlString viewController:self];
-    [mp playMedia];
+    MediaManager* mediaMan = [MainHandler getMediaManager];
+    
+    if ([mediaMan canStreamAsMedia:urlString]) {
+        [mediaMan startMediaStream:urlString viewController:self];
+    }
 }
 
 - (void)viewDidLoad

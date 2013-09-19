@@ -11,16 +11,20 @@
 #import "DBManager.h"
 #import "ConnectionManager.h"
 #import "BootstrapManager.h"
+#import "MediaManager.h"
+#import "Peer.h"
 
 @interface MainHandler : NSOperation
 + (void) setPeerList:(NSArray*)peerList;
 + (NSArray*) getPeerList;
 + (void) removeFromPeerList:(Peer*)peer;
 + (void) setInitialNode:(NSString*)ip;
-+ (NSString*) getInitialNode;
++ (Peer*) getInitialNode;
 + (SearchManager*) getSearchManager;
 + (DBManager*) getDBManager;
 + (ConnectionManager*) getConnectionManager;
 + (BootstrapManager*) getBootstrapManager;
 + (NSOperationQueue*) getThreadPool;
++ (MediaManager*) getMediaManager;
+
 @end

@@ -21,11 +21,12 @@
 - (void) performSearch:(NSString *)searchParams viewController:(FirstViewController*)viewController {
     [self clearResults];
     PeerList = [MainHandler getPeerList];
-    NSOperationQueue* searchQueue = [[NSOperationQueue alloc] init];
+    NSOperationQueue* searchQueue = [MainHandler getThreadPool];
     for (Peer* p in PeerList) {
         NSLog(@"Searching in peer: %@", [p getIp]);
         SearchRunner* runner = [[SearchRunner alloc]initWithPeer:p searchParams:searchParams];
-        [searchQueue addOperation:runner];
+        //[searchQueue addOperation:runner];
+        [runner main];
     }
     [searchQueue waitUntilAllOperationsAreFinished];
     NSLog(@"Setting %d results", results.count);

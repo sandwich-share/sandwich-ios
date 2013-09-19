@@ -26,6 +26,8 @@
 		FB0AC79C17E4005200D9F75B /* DBHandlerWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = FB0AC79B17E4005200D9F75B /* DBHandlerWrapper.m */; };
 		FB25E60317E6B56D00110CC8 /* MediaPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB25E60217E6B56D00110CC8 /* MediaPlayer.m */; };
 		FB25E60517E6B58200110CC8 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB25E60417E6B58200110CC8 /* MediaPlayer.framework */; };
+		FB27075A17E8A30900DF1680 /* MediaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB27075917E8A30900DF1680 /* MediaManager.m */; };
+		FB27075C17E8A3B300DF1680 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB27075B17E8A3B300DF1680 /* AVFoundation.framework */; };
 		FB4B9B9817C9BDF80018616F /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9417C9B1AB0018616F /* DBManager.m */; };
 		FB4B9B9917C9BDF80018616F /* Peer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB4B9B9717C9B2BC0018616F /* Peer.m */; };
 		FB4B9B9B17C9BF8D0018616F /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */; };
@@ -77,6 +79,9 @@
 		FB25E60117E6B56D00110CC8 /* MediaPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayer.h; sourceTree = "<group>"; };
 		FB25E60217E6B56D00110CC8 /* MediaPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayer.m; sourceTree = "<group>"; };
 		FB25E60417E6B58200110CC8 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		FB27075817E8A30900DF1680 /* MediaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaManager.h; path = Sandwich_iOS/MediaManager.h; sourceTree = "<group>"; };
+		FB27075917E8A30900DF1680 /* MediaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaManager.m; path = Sandwich_iOS/MediaManager.m; sourceTree = "<group>"; };
+		FB27075B17E8A3B300DF1680 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		FB4B9B9317C9B1AB0018616F /* DBManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DBManager.h; path = Sandwich_iOS/DBManager.h; sourceTree = "<group>"; };
 		FB4B9B9417C9B1AB0018616F /* DBManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = DBManager.m; path = Sandwich_iOS/DBManager.m; sourceTree = "<group>"; };
 		FB4B9B9617C9B2BC0018616F /* Peer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Peer.h; path = Sandwich_iOS/Peer.h; sourceTree = "<group>"; };
@@ -105,6 +110,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB27075C17E8A3B300DF1680 /* AVFoundation.framework in Frameworks */,
 				FB25E60517E6B58200110CC8 /* MediaPlayer.framework in Frameworks */,
 				FB4B9B9B17C9BF8D0018616F /* libsqlite3.dylib in Frameworks */,
 				FB02A37F17C8F64A00381B9A /* CoreGraphics.framework in Frameworks */,
@@ -148,6 +154,7 @@
 		FB02A37B17C8F64A00381B9A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB27075B17E8A3B300DF1680 /* AVFoundation.framework */,
 				FB25E60417E6B58200110CC8 /* MediaPlayer.framework */,
 				FB4B9B9A17C9BF8D0018616F /* libsqlite3.dylib */,
 				FB02A37C17C8F64A00381B9A /* Foundation.framework */,
@@ -227,6 +234,8 @@
 				FB4B9B9717C9B2BC0018616F /* Peer.m */,
 				FB4B9B9E17C9CA2D0018616F /* ConnectionManager.h */,
 				FB4B9B9F17C9CA2D0018616F /* ConnectionManager.m */,
+				FB27075817E8A30900DF1680 /* MediaManager.h */,
+				FB27075917E8A30900DF1680 /* MediaManager.m */,
 			);
 			name = Backend;
 			path = ..;
@@ -375,6 +384,7 @@
 				FB25E60317E6B56D00110CC8 /* MediaPlayer.m in Sources */,
 				FB96BDC817DB9953002FD8FD /* SearchResult.m in Sources */,
 				FB4B9BA017C9CC660018616F /* Bootstrapper.m in Sources */,
+				FB27075A17E8A30900DF1680 /* MediaManager.m in Sources */,
 				FB0AC79C17E4005200D9F75B /* DBHandlerWrapper.m in Sources */,
 				FB4B9BA717CA932B0018616F /* SearchManager.m in Sources */,
 				FB4B9B9817C9BDF80018616F /* DBManager.m in Sources */,

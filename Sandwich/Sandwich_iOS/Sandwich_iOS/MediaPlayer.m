@@ -26,6 +26,7 @@ UIViewController* ViewController;
     [mpc play];*/
     
     MPMoviePlayerViewController* mpvc = [[MPMoviePlayerViewController alloc] initWithContentURL:streamURL];
+    [[mpvc moviePlayer] setAllowsAirPlay:TRUE];
     [ViewController presentMoviePlayerViewControllerAnimated:mpvc];
     
     
